@@ -11,17 +11,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'accent-blue': '#00BFFF', // Azul Eléctrico
-                        'accent-green': '#7FFF00', // Verde Neón
-                        'base-light': '#0a0a0a',   // AHORA ES OSCURO (Fondo Principal)
-                        'base-card': '#1f1f1f',    // AHORA ES OSCURO (Tarjetas)
-                        'text-dark': '#e5e5e5',    // AHORA ES CLARO (Texto Principal)
-                        'text-muted': '#a3a3a3',   // Texto secundario
-                        'purple-600': '#8A2BE2',
+                        'accent-blue': '#00BFFF', // Azul Eléctrico/Cian Vibrante
+                        'accent-green': '#7FFF00', // Verde Neón/Lima Brillante
+                        'base-light': '#F9FAFB', // Gris muy claro para fondo
+                        'text-dark': '#333333',  // Gris oscuro para texto
+                        'purple-600': '#8A2BE2', // Nuevo color para el botón del asistente de laptops
                     },
                     fontFamily: {
                         montserrat: ['Montserrat', 'sans-serif'],
@@ -35,11 +32,12 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            color: #e5e5e5;
-            /* Texto claro */
-            background-color: #0a0a0a;
-            /* Fondo oscuro */
+            color: #333333;
+            /* Color de texto secundario */
+            background-color: #F9FAFB;
+            /* Color de fondo principal */
             overflow-x: hidden;
+            /* Evita el scroll horizontal */
         }
 
         h1,
@@ -275,76 +273,74 @@
 
 <body>
 
-    <header
-        class="bg-base-card shadow-md py-4 px-4 md:px-12 flex justify-between items-center rounded-b-xl border-b border-gray-800">
+    <header class="bg-white shadow-md py-4 px-4 md:px-12 flex justify-between items-center rounded-b-xl">
         <div class="flex items-center">
-            <img src="https://i.ibb.co/8nHqmm1L/LOGO-NEGRO.png" alt="SIA TEC Logo"
-                class="h-10 w-10 mr-3 rounded-lg bg-white p-1">
-            <span class="text-2xl font-montserrat font-bold text-white">SIA TEC</span>
+            <img src="https://i.ibb.co/8nHqmm1L/LOGO-NEGRO.png" alt="SIA TEC Logo" class="h-10 w-10 mr-3 rounded-lg">
+            <span class="text-2xl font-montserrat font-bold text-text-dark">SIA TEC</span>
         </div>
 
         <nav class="hidden md:flex space-x-8">
             <a href="#hero"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Inicio</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Inicio</a>
             <a href="#offers"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Ofertas</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Ofertas</a>
             <a href="#products"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Laptops</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Laptops</a>
             <a href="#services"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Reparación</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Reparación</a>
             <a href="#contact"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Contacto</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Contacto</a>
             <a href="#licenses"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Licencias
-                🔑</a>
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Licencias y
+                Activacion 🔑</a>
         </nav>
 
         <div class="flex items-center space-x-4 md:space-x-6">
             <div class="relative">
                 <input type="text" id="search-input" placeholder="Buscar..."
-                    class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-full md:w-48 p-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm text-white">
+                    class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-full md:w-48 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm">
                 <button id="search-toggle"
-                    class="text-white hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+                    class="text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
             <button id="cart-icon"
-                class="relative text-white hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+                class="relative text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
                 <i class="fas fa-shopping-cart"></i>
                 <span id="cart-count"
-                    class="absolute -top-2 -right-2 bg-accent-green text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    class="absolute -top-2 -right-2 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
             </button>
-            <button id="mobile-menu-button" class="md:hidden text-white text-xl focus:outline-none">
+            <button id="mobile-menu-button" class="md:hidden text-text-dark text-xl focus:outline-none">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <div id="mobile-menu"
-        class="hidden md:hidden bg-base-card shadow-lg py-4 px-6 rounded-b-xl border-b border-gray-800">
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-4 px-6 rounded-b-xl">
         <nav class="flex flex-col space-y-4 items-center">
-            <a href="#hero" class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+            <a href="#hero" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
                 onclick="document.getElementById('mobile-menu').classList.add('hidden')">Inicio</a>
             <a href="#offers"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
                 onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ofertas</a>
             <a href="#products"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
                 onclick="document.getElementById('mobile-menu').classList.add('hidden')">Laptops</a>
             <a href="#services"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
                 onclick="document.getElementById('mobile-menu').classList.add('hidden')">Reparación</a>
             <a href="#contact"
-                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
                 onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contacto</a>
+            <a href="#licenses"
+                class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Licencias y Activacion 🔑</a>
         </nav>
     </div>
 
-    <section id="hero" class="relative bg-base-light h-screen text-center rounded-b-xl overflow-hidden">
-        <div id="hero-3d-container" class="absolute inset-0 z-0 cursor-pointer"></div>
-        <div
-            class="absolute inset-0 bg-gradient-to-b from-transparent via-base-light/50 to-base-light z-0 pointer-events-none">
-        </div>
+    <section id="hero" class="relative bg-center h-screen text-center rounded-b-xl"
+        style="background-image: url('https://i.ibb.co/Fb93s8Wf/1749964525606.png'); background-size: contain; background-repeat: repeat;">
+        <div class="absolute inset-0 bg-black opacity-40 rounded-b-xl"></div>
         <div class="relative z-10 p-8 max-w-4xl mx-auto flex flex-col h-full">
             <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mt-0">Soluciones
                 Informaticas Avanzadas.</h1>
@@ -368,72 +364,68 @@
         </div>
     </section>
 
-    <section id="offers" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Ofertas Exclusivas 🔥</h2>
+    <section id="offers" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Ofertas Exclusivas 🔥</h2>
         <div id="offers-grid" class="grid grid-cols-2 gap-4 md:grid-cols-2 max-w-4xl mx-auto">
         </div>
     </section>
 
     <section id="products" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Laptops</h2>
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Laptops</h2>
 
         <div class="flex flex-wrap justify-center gap-4 mb-10">
             <button
-                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Todas</button>
+                class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Todas</button>
             <button
-                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Dell</button>
+                class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Dell</button>
             <button
-                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">HP</button>
+                class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">HP</button>
             <button
-                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Lenovo</button>
+                class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Lenovo</button>
             <button
-                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Asus</button>
+                class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Asus</button>
         </div>
 
         <div id="product-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         </div>
     </section>
 
-    <section id="licenses" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Licencias y Activacion 🔑</h2>
+    <section id="licenses" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Licencias y Activacion 🔑</h2>
         <div id="licenses-grid" class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         </div>
     </section>
 
-    <section id="services" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Servicios de Reparación</h2>
+    <section id="services" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Servicios de Reparación</h2>
         <div class="max-w-3xl mx-auto text-center">
-            <p class="text-lg font-open-sans mb-8 text-gray-300">En SIA TEC, ofrecemos un servicio de reparación de
-                Equipos de computo integral y confiable. Desde diagnósticos precisos hasta reparaciones de hardware y
-                software, nuestro equipo de expertos está listo para devolverle la vida a tu equipo.</p>
+            <p class="text-lg font-open-sans mb-8">En SIA TEC, ofrecemos un servicio de reparación de Equipos de computo
+                integral y confiable. Desde diagnósticos precisos hasta reparaciones de hardware y software, nuestro
+                equipo de expertos está listo para devolverle la vida a tu equipo.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mb-10">
-                <div
-                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
                     <i class="fas fa-microchip text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Reparación de Hardware</h3>
-                    <p class="text-md font-open-sans text-gray-400">Cambio de pantallas, teclados, baterías, discos
-                        duros, y componentes internos.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Reparación de Hardware</h3>
+                    <p class="text-md font-open-sans">Cambio de pantallas, teclados, baterías, discos duros, y
+                        componentes internos.</p>
                 </div>
-                <div
-                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
                     <i class="fas fa-laptop-code text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Mantenimiento de Software</h3>
-                    <p class="text-md font-open-sans text-gray-400">Eliminación de virus, optimización de sistema,
-                        instalación de sistemas operativos.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Mantenimiento de Software</h3>
+                    <p class="text-md font-open-sans">Eliminación de virus, optimización de sistema, instalación de
+                        sistemas operativos.</p>
                 </div>
-                <div
-                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
                     <i class="fas fa-diagnoses text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Diagnóstico y Asesoría</h3>
-                    <p class="text-md font-open-sans text-gray-400">Diagnóstico gratuito y asesoramiento personalizado
-                        para tus necesidades.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Diagnóstico y Asesoría</h3>
+                    <p class="text-md font-open-sans">Diagnóstico gratuito y asesoramiento personalizado para tus
+                        necesidades.</p>
                 </div>
-                <div
-                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
                     <i class="fas fa-fan text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Limpieza y Optimización</h3>
-                    <p class="text-md font-open-sans text-gray-400">Limpieza interna, cambio de pasta térmica y
-                        optimización de rendimiento.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Limpieza y Optimización</h3>
+                    <p class="text-md font-open-sans">Limpieza interna, cambio de pasta térmica y optimización de
+                        rendimiento.</p>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
@@ -449,25 +441,25 @@
     </section>
 
     <section id="about" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">¿Por Qué Elegir SIA TEC?</h2>
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">¿Por Qué Elegir SIA TEC?</h2>
         <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="text-center md:text-left">
-                <p class="text-lg font-open-sans leading-relaxed mb-6 text-gray-300">En SIA TEC, nos apasiona la
-                    tecnología y nos dedicamos a ofrecer soluciones integrales para tus laptops. Con años de
-                    experiencia, un equipo de técnicos certificados y un compromiso inquebrantable con la calidad, somos
-                    tu socio tecnológico de confianza.</p>
-                <p class="text-lg font-open-sans leading-relaxed text-gray-300">Nuestra misión es brindarte productos de
-                    alta calidad y servicios de reparación eficientes, garantizando que tu experiencia tecnológica sea
-                    siempre la mejor.</p>
+                <p class="text-lg font-open-sans leading-relaxed mb-6">En SIA TEC, nos apasiona la tecnología y nos
+                    dedicamos a ofrecer soluciones integrales para tus laptops. Con años de experiencia, un equipo de
+                    técnicos certificados y un compromiso inquebrantable con la calidad, somos tu socio tecnológico de
+                    confianza.</p>
+                <p class="text-lg font-open-sans leading-relaxed">Nuestra misión es brindarte productos de alta calidad
+                    y servicios de reparación eficientes, garantizando que tu experiencia tecnológica sea siempre la
+                    mejor.</p>
             </div>
             <div class="space-y-6">
-                <div class="bg-base-card p-6 rounded-xl shadow-md border border-gray-700">
-                    <p class="text-md italic font-open-sans text-gray-400 mb-3">"Excelente servicio de reparación, mi
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Excelente servicio de reparación, mi
                         laptop quedó como nueva. ¡Totalmente recomendados!"</p>
                     <p class="text-sm font-montserrat font-semibold text-accent-blue">- Ana G.</p>
                 </div>
-                <div class="bg-base-card p-6 rounded-xl shadow-md border border-gray-700">
-                    <p class="text-md italic font-open-sans text-gray-400 mb-3">"Compré mi laptop aquí y la atención fue
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Compré mi laptop aquí y la atención fue
                         de primera. Muy satisfecho con mi compra."</p>
                     <p class="text-sm font-montserrat font-semibold text-accent-blue">- Carlos M.</p>
                 </div>
@@ -520,11 +512,8 @@
                             class="fab fa-twitter"></i></a>
                 </div>
                 <p class="text-sm font-open-sans text-gray-400">&copy; 2025 SIA TEC. Todos los derechos reservados.</p>
-                <a href="admin.html"
-                    class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2 block">Panel
-                    de Administración</a>
                 <a href="#"
-                    class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2 block">Política
+                    class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2">Política
                     de Privacidad</a>
             </div>
         </div>
@@ -687,15 +676,13 @@
     </div>
 
     <script type="module">
-        import { init3DHero } from './3d-hero.js';
+        // Importaciones de Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from
-            "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp, getDocs } from
-            "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Inicialización de Firebase
-        const firebaseConfig = {
+        // Inicialización de Firebase con la configuración proporcionada o la global de Canvas
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
             apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
             authDomain: "siatec-a88de.firebaseapp.com",
             projectId: "siatec-a88de",
@@ -704,69 +691,254 @@
             appId: "1:558101434635:web:38347725aa168e7587520e",
             measurementId: "G-ZZ274STXJ7"
         };
-        const appId = "1:558101434635:web:38347725aa168e7587520e";
+        const appId = typeof __app_id !== 'undefined' ? __app_id : "1:558101434635:web:38347725aa168e7587520e"; // Usa tu appId o la global de Canvas
 
         let app;
         let db;
         let auth;
         let userId;
 
-        // Array para almacenar los productos (ahora dinámico)
-        let products = [];
-        let cart = [];
-
-        // Inicializar Firebase y Componentes
+        // Inicializar Firebase y autenticar
         document.addEventListener('DOMContentLoaded', async () => {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
 
-            // Iniciar 3D Hero
-            init3DHero('hero-3d-container');
-
             // Autenticar al usuario
             try {
-                await signInAnonymously(auth);
-                userId = auth.currentUser?.uid;
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                userId = auth.currentUser?.uid; // Obtiene el UID del usuario autenticado
+                console.log("Firebase inicializado y usuario autenticado:", userId);
             } catch (error) {
-                console.error("Error Auth:", error);
-                userId = crypto.randomUUID();
+                console.error("Error durante la autenticación de Firebase:", error);
+                userId = crypto.randomUUID(); // Fallback a un ID aleatorio si la autenticación falla
             }
 
-            // Cargar productos de Firestore
-            await fetchProducts();
+            // Llamadas de renderizado iniciales después de la inicialización de Firebase
+            renderOffers();
+            renderProducts();
+            renderLicenses();
+            updateCartUI();
         });
 
-        async function fetchProducts() {
-            try {
-                const querySnapshot = await getDocs(collection(db, "products"));
-                products = [];
-                querySnapshot.forEach((doc) => {
-                    // Adaptar datos de Firestore al formato que espera la UI
-                    const data = doc.data();
-                    products.push({
-                        id: doc.id,
-                        ...data,
-                        // Asegurar compatibilidad si faltan campos
-                        description: data.description || '',
-                        images: data.images || [data.image],
-                        discountPercentage: data.discountPercentage || '10%'
-                    });
-                });
 
-                renderOffers();
-                renderProducts();
-                renderLicenses();
-                updateCartUI();
+        // Array para almacenar los productos en el carrito
+        let cart = [];
 
-                console.log("Productos cargados:", products.length);
-            } catch (e) {
-                console.error("Error al cargar productos:", e);
-                // Fallback UI si falla
-                productGrid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error de conexión. No se pudieron cargar los productos.</p>';
+        // Variables globales para la galería de imágenes del modal
+        let currentProductImageUrls = [];
+        let currentImageCarouselIndex = 0;
+
+        // Datos de productos de ejemplo con stock y ofertas
+        const products = [
+            {
+                id: 1,
+                name: 'Lenovo Ultra Thinkpad E16 G2',
+                originalPrice: 31888.88, // Precio original
+                price: 28700, // Precio con descuento
+                description: 'Gama Media <br> Procesador: Intel Core Ultra 7 155H <br> Ram: 16 GB DDR5 <br> Almacenamiento: 512  GB SSD NVME <br> Display: 16” Full HD <br> GPU: Intel Arc <br> Sistema Operativo: Windows 11.',
+                image: 'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
+                images: [ // Múltiples imágenes para el carrusel
+                    'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
+                    'https://placehold.co/800x600/FF5733/FFFFFF?text=Lenovo+E16+G2+Vista+Lateral',
+                    'https://placehold.co/800x600/33FF57/FFFFFF?text=Lenovo+E16+G2+Teclado'
+                ],
+                stock: 5,
+                isOnOffer: true,
+                discountPercentage: '10%'
+            },
+            {
+                id: 2,
+                name: 'Lenovo ThinkPad P1 G3',
+                originalPrice: 24375.00,
+                price: 19500.00, // Precio con descuento
+                description: 'Gama Alta <br> Procesador: Intel Xeon® W-10855M vPro <br> Ram: 16 GB DDR4 <br> Almacenamiento: 1 TB SSD NVME <br> Display: 15.6” FHD <br> GPU: NVIDIA® T2000 de 4GB <br> Sistema Operativo: Windows 11.',
+                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3puZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
+                    'https://placehold.co/800x600/3366FF/FFFFFF?text=Lenovo+P1+G3+Ángulo',
+                    'https://placehold.co/800x600/FFFF33/333333?text=Lenovo+P1+G3+Abierta'
+                ],
+                stock: 3,
+                isOnOffer: true,
+                discountPercentage: '20%'
+            },
+            {
+                id: 3,
+                name: 'Lenovo ThinkPad T480s',
+                originalPrice: 13800.00, // Precio original
+                price: 11500.00,
+                description: 'Gama Media <br> Procesador: Intel Core i7-8650U <br> Ram: 24 GB DDR4 <br> Almacenamiento: 256  GB SSD <br> Display: 14” Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 Pro.',
+                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
+                    'https://placehold.co/800x600/CC33FF/FFFFFF?text=Lenovo+T480s+Detalle+1',
+                    'https://placehold.co/800x600/FF33CC/FFFFFF?text=Lenovo+T480s+Detalle+2'
+                ],
+                stock: 7,
+                isOnOffer: true,
+                discountPercentage: '20%'
+            },
+            {
+                id: 11,
+                name: 'Dell Latitude 7420 Touch',
+                originalPrice: 13625, // Precio original
+                price: 10900.00,
+                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
+                    'https://placehold.co/800x600/AACCFF/000000?text=Dell+7420+Touch+Vista+Superior',
+                    'https://placehold.co/800x600/FFCCAA/000000?text=Dell+7420+Touch+Plegada'
+                ],
+                stock: 7,
+                isOnOffer: true,
+                discountPercentage: '20%'
+            },
+            {
+                id: 4,
+                name: 'Lenovo ThinkPad P15s G1',
+                price: 18500.00,
+                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11.',
+                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg'
+                ],
+                stock: 4,
+                isOnOffer: false
+            },
+            {
+                id: 5,
+                name: 'Dell Latitude 7330 Touch 2 en 1',
+                price: 11000.00,
+                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: Windows 11.',
+                image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg'
+                ],
+                stock: 6,
+                isOnOffer: false
+            },
+            {
+                id: 6,
+                name: 'Dell G15 5520 Gaming',
+                price: 18900.00,
+                description: 'Gama Alta <br> Procesador: Intel Core i7 12700H <br> Ram: 32 GB DDR5 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD 120 hz <br> GPU: NVIDIA RTX 3060 6GB <br> Sistema Operativo: Windows 11.',
+                image: 'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp',
+                images: [
+                    'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp'
+                ],
+                stock: 8,
+                isOnOffer: false
+            },
+            {
+                id: 7,
+                name: 'Dell Latitude 5420 ',
+                price: 7200.00,
+                description: 'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
+                    'https://placehold.co/800x600/FFCC00/FFFFFF?text=Dell+Latitude+5420+Vista+Lateral',
+                    'https://placehold.co/800x600/00FFCC/FFFFFF?text=Dell+Latitude+5420+Teclado'
+                ],
+                stock: 8,
+                isOnOffer: false
+            },
+            {
+                id: 8,
+                name: 'Dell Latitude 7490',
+                price: 5800.00,
+                description: 'Gama Media <br> Procesador: Intel Core i5-8250U <br> Ram: 8GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                image: 'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png',
+                images: [
+                    'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png'
+                ],
+                stock: 10,
+                isOnOffer: false
+            },
+            {
+                id: 9,
+                name: 'Dell Latitude 5500 Touch',
+                price: 6900.00,
+                description: 'Gama Media <br> Procesador: Intel Core i5-8365U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 15,6" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                image: 'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg'
+                ],
+                stock: 10,
+                isOnOffer: false
+            },
+            // Nuevos productos para licencias de Windows
+            {
+                id: 100,
+                name: 'Licencia Windows 10 Pro (ESD)',
+                price: 450.00,
+                description: 'Licencia digital para Windows 10 Pro. Ideal para usuarios empresariales y avanzados. Activación instantánea.',
+                image: 'https://i.ibb.co/NnCMHzfp/w10-pro.png',
+                images: ['https://i.ibb.co/NnCMHzfp/w10-pro.png'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 101,
+                name: 'Licencia Windows 11 Pro (ESD)',
+                price: 650.00,
+                description: 'Licencia digital para Windows 11 Pro. Disfruta de la última experiencia Windows con seguridad y características mejoradas.',
+                image: 'https://i.ibb.co/TBc9G54q/w-11-pro.png',
+                images: ['https://i.ibb.co/TBc9G54q/w-11-pro.png'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 102,
+                name: 'Microsoft Office Pro Plus 2021 (ESD)',
+                price: 450.00,
+                description: 'Licencia digital para Microsoft Office Pro Plus 2021. Incluye Word, Excel, PowerPoint y más. Activación instantánea.',
+                image: 'https://i.ibb.co/LdbrR6Zq/office-2021.png',
+                images: ['https://i.ibb.co/LdbrR6Zq/office-2021.png'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 103,
+                name: 'Microsoft Office Pro Plus 2024 (ESD)',
+                price: 600.00,
+                description: 'Licencia digital para Microsoft Office Pro Plus 2024. Incluye las últimas versiones de Word, Excel, PowerPoint y más. Activación instantánea.',
+                image: 'https://i.ibb.co/7JpSs8Tg/office-2024.png',
+                images: ['https://i.ibb.co/7JpSs8Tg/office-2024.png'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 104,
+                name: ' ESET NOD32 (2 AÑOS) (ESD)',
+                price: 650.00,
+                description: 'Antivirus ESET NOD32 para 2 años. Protección avanzada contra malware, ransomware y amenazas en línea. Licencia digital.',
+                image: 'https://live.staticflickr.com/5123/5200939230_8d86ba71cb_z.jpg',
+                images: ['https://live.staticflickr.com/5123/5200939230_8d86ba71cb_z.jpg'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 104,
+                name: ' ESET NOD32 (2 AÑOS) (ESD)',
+                price: 650.00,
+                description: 'Antivirus ESET NOD32 para 2 años. Protección avanzada contra malware, ransomware y amenazas en línea. Licencia digital.',
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32'],
+                stock: 99,
+                isOnOffer: false
             }
-        }
-
+        ];
+        // Referencias a elementos del DOM
+        const productGrid = document.getElementById('product-grid');
+        const offersGrid = document.getElementById('offers-grid');
+        const licensesGrid = document.getElementById('licenses-grid'); // Nueva referencia para la sección de licencias
         const cartIcon = document.getElementById('cart-icon');
         const cartCount = document.getElementById('cart-count');
         const cartModalOverlay = document.getElementById('cart-modal-overlay');
@@ -863,27 +1035,26 @@
             laptopRecommendationError.classList.add('hidden');
             recommendationText.innerHTML = '';
 
-
             try {
                 let chatHistory = [];
                 // Construct the prompt for Gemini, including the full products catalog
                 const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
 
-**Información del Cliente:**
-- Profesión: ${profession}
-- Programas/Software: ${programs}
-- Presupuesto: ${budget} MXN
+            **Información del Cliente:**
+            - Profesión: ${profession}
+            - Programas/Software: ${programs}
+            - Presupuesto: ${budget} MXN
 
-**Catálogo de Laptops de SIA TEC (en formato JSON):**
-${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
+            **Catálogo de Laptops de SIA TEC (en formato JSON):**
+            ${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
 
-Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
+            Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
 
-Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."`;
-
+            Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
+            `;
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = { contents: chatHistory };
 
+                const payload = { contents: chatHistory };
                 const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
@@ -944,63 +1115,56 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
             const productCard = document.createElement('div');
-            productCard.className = 'product-card bg-base-card p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative border border-gray-800';
+            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative';
 
-            let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price ?
-                product.price.toFixed(2) : '0.00'}</span>`;
+            let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>`; // Ajustado tamaño y color para la imagen
             let offerBadge = '';
 
             if (product.isOnOffer) {
                 priceHtml = `
-        <span class="original-price text-sm text-gray-500 mr-1">$${product.originalPrice ?
-                        product.originalPrice.toFixed(2) : ''}</span> <span
-            class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
-        `;
-                offerBadge = `<span class="offer-badge">¡${product.discountPercentage || 'OFERTA'} OFF!</span>`;
+                    <span class="original-price text-sm text-gray-300 mr-1">$${product.originalPrice.toFixed(2)}</span> <span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
+                `;
+                offerBadge = `<span class="offer-badge">¡${product.discountPercentage} OFF!</span>`;
             }
 
             const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
-            const stockColor = product.stock > 0 ? 'text-gray-400' : 'text-red-500 font-semibold';
+            const stockColor = product.stock > 0 ? 'text-gray-500' : 'text-red-500 font-semibold';
             const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
             const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
 
             productCard.innerHTML = `
-        ${offerBadge}
-        <div class="relative w-full mb-4">
-            <img src="${product.image}" alt="${product.name}"
-                class="w-full h-32 md:h-48 object-contain rounded-lg cursor-pointer" data-product-id="${product.id}">
-            <div class="absolute bottom-2 right-2 bg-black/70 rounded-lg px-2 py-1 flex items-center justify-center">
-                ${priceHtml}
-            </div>
-        </div>
-        <h3 class="text-xl font-montserrat font-semibold mt-0 mb-2 text-white">${product.name}</h3>
-        <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
-        <div class="text-sm font-open-sans text-gray-400 mb-4 h-20 overflow-hidden text-ellipsis">${product.description}
-        </div>
-        <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
-        <div class="flex justify-center mt-auto"> <button data-product-id="${product.id}"
-                class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}"
-                ${product.stock === 0 ? 'disabled' : ''}>
-                ${buttonText}
-            </button>
-        </div>
-        `;
+                ${offerBadge}
+                <div class="relative w-full"> <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
+                    <div class="absolute bottom-2 right-2 bg-black/70 rounded-lg px-2 py-1 flex items-center justify-center"> ${priceHtml}
+                    </div>
+                </div>
+                <h3 class="text-xl font-montserrat font-semibold mt-4 mb-2">${product.name}</h3> <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
+                <p class="text-sm font-open-sans text-gray-600 mb-4 h-20 overflow-hidden">${product.description}</p>
+                <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
+                <div class="flex justify-center mt-auto"> <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
+                        ${buttonText}
+                    </button>
+                </div>
+            `;
             return productCard;
         }
 
         // Función para renderizar los productos en la sección principal
         function renderProducts() {
             productGrid.innerHTML = '';
-            products.filter(p => !p.isOnOffer && p.id < 100).forEach(product => { // Mostrar solo laptops (id < 100) y que NO
-                están en oferta aquí productGrid.appendChild(createProductCard(product));
+            products.filter(p => !p.isOnOffer && p.id < 100).forEach(product => { // Mostrar solo laptops (id < 100) y que NO están en oferta aquí
+                productGrid.appendChild(createProductCard(product));
             });
-            attachAddToCartListeners(); attachImageClickListeners();
-        } // Función para renderizar los productos en
-                oferta function renderOffers() {
-            offersGrid.innerHTML = ''; products.filter(p =>
-                p.isOnOffer).forEach(product => {
-                    offersGrid.appendChild(createProductCard(product));
-                });
+            attachAddToCartListeners();
+            attachImageClickListeners();
+        }
+
+        // Función para renderizar los productos en oferta
+        function renderOffers() {
+            offersGrid.innerHTML = '';
+            products.filter(p => p.isOnOffer).forEach(product => {
+                offersGrid.appendChild(createProductCard(product));
+            });
             attachAddToCartListeners();
             attachImageClickListeners();
         }
@@ -1008,8 +1172,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         // NUEVA Función para renderizar los productos de licencias
         function renderLicenses() {
             licensesGrid.innerHTML = '';
-            products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100
-                (licencias)
+            products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100 (licencias)
                 licensesGrid.appendChild(createProductCard(product));
             });
             attachAddToCartListeners();
@@ -1020,8 +1183,12 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                if (product.stock <= 0) { showTemporaryMessage('¡Producto agotado!', 'bg-red-500'); return; } const
-                    existingItem = cart.find(item => item.id === productId);
+                if (product.stock <= 0) {
+                    showTemporaryMessage('¡Producto agotado!', 'bg-red-500');
+                    return;
+                }
+
+                const existingItem = cart.find(item => item.id === productId);
                 if (existingItem) {
                     existingItem.quantity++;
                 } else {
@@ -1041,8 +1208,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             const productInCart = cart.find(item => item.id === productId);
             if (productInCart) {
                 const originalProduct = products.find(p => p.id === productId);
-                // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean
-                'ilimitadas' como 99)
+                // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean 'ilimitadas' como 99)
                 if (originalProduct && originalProduct.stock !== 99) {
                     originalProduct.stock += productInCart.quantity;
                 }
@@ -1087,21 +1253,19 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                     const listItem = document.createElement('div');
                     listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
                     listItem.innerHTML = `
-                    <div class="flex items-center">
-                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
-                        <div>
-                            <h4 class="font-montserrat font-semibold">${item.name}</h4>
-                            <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                            <div>
+                                <h4 class="font-montserrat font-semibold">${item.name}</h4>
+                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <span class="font-montserrat font-bold text-accent-blue">$${(item.price *
-                            item.quantity).toFixed(2)}</span>
-                        <button data-product-id="${item.id}"
-                            class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     `;
                     cartItemsList.appendChild(listItem);
                     total += item.price * item.quantity;
@@ -1120,9 +1284,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         // Función para mostrar un mensaje temporal (ej. "Producto agregado")
         function showTemporaryMessage(message, bgColorClass) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6
-                    py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform
-                    translate-y-4`;
+            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6 py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform translate-y-4`;
             messageDiv.textContent = message;
             document.body.appendChild(messageDiv);
 
@@ -1179,8 +1341,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         sendWhatsappBtn.addEventListener('click', () => {
             let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
             cart.forEach(item => {
-                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price *
-                    item.quantity).toFixed(2)}\n`;
+                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
             });
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrección aquí
             orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
@@ -1188,8 +1349,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
 
             const whatsappNumber = "527713951347";
 
-            const whatsappLink =
-                `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
 
             window.open(whatsappLink, '_blank');
             cart = [];
@@ -1264,15 +1424,11 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
 
             try {
                 let chatHistory = [];
-                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha
-                    descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico
-                    preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica
-                    cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil
-                    de entender. Descripción del problema: ${problemDescription}`;
+                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil de entender. Descripción del problema: ${problemDescription}`;
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44";  // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1333,15 +1489,18 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             // Ocultar/mostrar flechas si solo hay una imagen
             if (currentProductImageUrls.length <= 1) {
                 modalPrevBtn.classList.add('hidden');
-                modalNextBtn.classList.add('hidden'); modalImageIndicators.classList.add('hidden');
+                modalNextBtn.classList.add('hidden');
+                modalImageIndicators.classList.add('hidden');
             } else {
-                modalPrevBtn.classList.remove('hidden'); modalNextBtn.classList.remove('hidden');
+                modalPrevBtn.classList.remove('hidden');
+                modalNextBtn.classList.remove('hidden');
                 modalImageIndicators.classList.remove('hidden');
-            } modalImageIndicators.innerHTML = ''; //
-                        Limpiar indicadores existentes currentProductImageUrls.forEach((_, index) => {
+            }
+
+            modalImageIndicators.innerHTML = ''; // Limpiar indicadores existentes
+            currentProductImageUrls.forEach((_, index) => {
                 const dot = document.createElement('span');
-                dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1
-                        transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
+                dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1 transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
                 dot.addEventListener('click', () => {
                     currentImageCarouselIndex = index;
                     updateModalImageAndIndicators();
@@ -1384,8 +1543,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
 
         // Navegación del carrusel: Botón Anterior
         modalPrevBtn.addEventListener('click', () => {
-            currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) %
-                currentProductImageUrls.length;
+            currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) % currentProductImageUrls.length;
             updateModalImageAndIndicators();
         });
 
