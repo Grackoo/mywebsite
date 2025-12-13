@@ -1,22 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIA TEC: Soluciones Informaticas Avanzadas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'accent-blue': '#00BFFF', // Azul Eléctrico/Cian Vibrante
-                        'accent-green': '#7FFF00', // Verde Neón/Lima Brillante
-                        'base-light': '#F9FAFB', // Gris muy claro para fondo
-                        'text-dark': '#333333',  // Gris oscuro para texto
-                        'purple-600': '#8A2BE2', // Nuevo color para el botón del asistente de laptops
+                        'accent-blue': '#00BFFF', // Azul Eléctrico
+                        'accent-green': '#7FFF00', // Verde Neón
+                        'base-light': '#0a0a0a',   // AHORA ES OSCURO (Fondo Principal)
+                        'base-card': '#1f1f1f',    // AHORA ES OSCURO (Tarjetas)
+                        'text-dark': '#e5e5e5',    // AHORA ES CLARO (Texto Principal)
+                        'text-muted': '#a3a3a3',   // Texto secundario
+                        'purple-600': '#8A2BE2',
                     },
                     fontFamily: {
                         montserrat: ['Montserrat', 'sans-serif'],
@@ -30,26 +35,35 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            color: #333333; /* Color de texto secundario */
-            background-color: #F9FAFB; /* Color de fondo principal */
-            overflow-x: hidden; /* Evita el scroll horizontal */
+            color: #e5e5e5;
+            /* Texto claro */
+            background-color: #0a0a0a;
+            /* Fondo oscuro */
+            overflow-x: hidden;
         }
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             font-family: 'Montserrat', sans-serif;
             color: #333333;
         }
+
         /* Estilos para el scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #F9FAFB;
             border-radius: 10px;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #00BFFF;
             border-radius: 10px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #0099CC;
         }
@@ -59,6 +73,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
         }
+
         .btn-green-hover-effect:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(127, 255, 0, 0.3);
@@ -86,25 +101,33 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
+
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
         .modal-content {
             background-color: white;
             padding: 2.5rem;
-            border-radius: 1.5rem; /* Bordes redondeados */
+            border-radius: 1.5rem;
+            /* Bordes redondeados */
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 90%;
-            max-width: 600px; /* Aumentado para el diagnóstico */
+            max-width: 600px;
+            /* Aumentado para el diagnóstico */
             transform: scale(0.95);
             transition: transform 0.3s ease;
-            max-height: 90vh; /* Para que el contenido no se salga en pantallas pequeñas */
-            overflow-y: auto; /* Scroll si el contenido es muy largo */
+            max-height: 90vh;
+            /* Para que el contenido no se salga en pantallas pequeñas */
+            overflow-y: auto;
+            /* Scroll si el contenido es muy largo */
         }
+
         .modal-overlay.active .modal-content {
             transform: scale(1);
         }
+
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #00BFFF;
@@ -114,22 +137,31 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         /* Estilo para precio tachado */
         .original-price {
             text-decoration: line-through;
             color: #888;
             font-size: 0.9em;
         }
+
         /* Estilo para el badge de oferta */
         .offer-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background-color: #FF4500; /* Naranja para ofertas */
+            background-color: #FF4500;
+            /* Naranja para ofertas */
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 0.75rem;
@@ -137,6 +169,7 @@
             font-weight: bold;
             z-index: 10;
         }
+
         /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
         .product-card {
             /* Asegura que el contenido (la imagen con zoom) no se desborde del card */
@@ -152,130 +185,182 @@
             /* Escala la imagen al 110% (puedes ajustar el valor) */
             transform: scale(1.1);
         }
+
         /* --- FIN de NUEVO CSS --- */
 
         /* Estilos para botones flotantes */
         /* Contenedor de botones flotantes */
         .floating-buttons-container {
             position: fixed;
-            bottom: 1rem; /* Ajustado para un poco más de margen inferior en móvil */
-            right: 1rem; /* Ajustado para un poco más de margen derecho en móvil */
+            bottom: 1rem;
+            /* Ajustado para un poco más de margen inferior en móvil */
+            right: 1rem;
+            /* Ajustado para un poco más de margen derecho en móvil */
             display: flex;
-            flex-direction: column-reverse; /* Carrito arriba, WhatsApp abajo en móvil */
-            gap: 1rem; /* Espacio entre los botones */
+            flex-direction: column-reverse;
+            /* Carrito arriba, WhatsApp abajo en móvil */
+            gap: 1rem;
+            /* Espacio entre los botones */
             z-index: 999;
         }
 
         .floating-button {
-            background-color: #00BFFF; /* Color por defecto, se sobrescribe para WhatsApp */
+            background-color: #00BFFF;
+            /* Color por defecto, se sobrescribe para WhatsApp */
             color: white;
-            border-radius: 9999px; /* Completamente redondo */
-            padding: 0.8rem; /* Padding ajustado para ser más compacto en móvil */
+            border-radius: 9999px;
+            /* Completamente redondo */
+            padding: 0.8rem;
+            /* Padding ajustado para ser más compacto en móvil */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem; /* Tamaño de ícono ajustado */
+            font-size: 1.6rem;
+            /* Tamaño de ícono ajustado */
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
         }
+
         .floating-button:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
 
         .floating-button.whatsapp {
-            background-color: #25D366; /* Color de WhatsApp */
+            background-color: #25D366;
+            /* Color de WhatsApp */
         }
 
         .floating-button.whatsapp:hover {
-            background-color: #1DA851; /* Color de WhatsApp más oscuro al pasar el ratón */
+            background-color: #1DA851;
+            /* Color de WhatsApp más oscuro al pasar el ratón */
         }
 
         .floating-button .label {
-            font-size: 0.9rem; /* Tamaño de fuente ajustado */
+            font-size: 0.9rem;
+            /* Tamaño de fuente ajustado */
             font-weight: 600;
             margin-left: 0.5rem;
-            display: none; /* Oculto por defecto en móviles */
+            display: none;
+            /* Oculto por defecto en móviles */
         }
 
         /* Mostrar texto del botón flotante en pantallas más grandes y ajustar layout */
         @media (min-width: 768px) {
             .floating-buttons-container {
-                flex-direction: row; /* En fila en desktop */
+                flex-direction: row;
+                /* En fila en desktop */
                 bottom: 2rem;
                 right: 2rem;
             }
+
             .floating-button {
-                padding: 1rem; /* Padding estándar en desktop */
+                padding: 1rem;
+                /* Padding estándar en desktop */
             }
+
             .floating-button .label {
                 display: inline-block;
             }
+
             .floating-button.whatsapp {
-                padding: 1rem 1.5rem; /* Ajuste de padding para el texto */
+                padding: 1rem 1.5rem;
+                /* Ajuste de padding para el texto */
             }
         }
     </style>
 </head>
+
 <body>
 
-    <header class="bg-white shadow-md py-4 px-4 md:px-12 flex justify-between items-center rounded-b-xl">
+    <header
+        class="bg-base-card shadow-md py-4 px-4 md:px-12 flex justify-between items-center rounded-b-xl border-b border-gray-800">
         <div class="flex items-center">
-            <img src="https://i.ibb.co/8nHqmm1L/LOGO-NEGRO.png" alt="SIA TEC Logo" class="h-10 w-10 mr-3 rounded-lg">
-            <span class="text-2xl font-montserrat font-bold text-text-dark">SIA TEC</span>
+            <img src="https://i.ibb.co/8nHqmm1L/LOGO-NEGRO.png" alt="SIA TEC Logo"
+                class="h-10 w-10 mr-3 rounded-lg bg-white p-1">
+            <span class="text-2xl font-montserrat font-bold text-white">SIA TEC</span>
         </div>
 
         <nav class="hidden md:flex space-x-8">
-            <a href="#hero" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Inicio</a>
-            <a href="#offers" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Ofertas</a>
-            <a href="#products" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Laptops</a>
-            <a href="#services" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Reparación</a>
-            <a href="#contact" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Contacto</a>
-            <a href="#licenses" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Licencias y Activacion 🔑</a>
+            <a href="#hero"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Inicio</a>
+            <a href="#offers"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Ofertas</a>
+            <a href="#products"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Laptops</a>
+            <a href="#services"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Reparación</a>
+            <a href="#contact"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Contacto</a>
+            <a href="#licenses"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300">Licencias
+                🔑</a>
         </nav>
 
         <div class="flex items-center space-x-4 md:space-x-6">
             <div class="relative">
-                <input type="text" id="search-input" placeholder="Buscar..." class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-full md:w-48 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm">
-                <button id="search-toggle" class="text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+                <input type="text" id="search-input" placeholder="Buscar..."
+                    class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-full md:w-48 p-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm text-white">
+                <button id="search-toggle"
+                    class="text-white hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <button id="cart-icon" class="relative text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+            <button id="cart-icon"
+                class="relative text-white hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
                 <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                <span id="cart-count"
+                    class="absolute -top-2 -right-2 bg-accent-green text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
             </button>
-            <button id="mobile-menu-button" class="md:hidden text-text-dark text-xl focus:outline-none">
+            <button id="mobile-menu-button" class="md:hidden text-white text-xl focus:outline-none">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-4 px-6 rounded-b-xl">
+    <div id="mobile-menu"
+        class="hidden md:hidden bg-base-card shadow-lg py-4 px-6 rounded-b-xl border-b border-gray-800">
         <nav class="flex flex-col space-y-4 items-center">
-            <a href="#hero" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Inicio</a>
-            <a href="#offers" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ofertas</a>
-            <a href="#products" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Laptops</a>
-            <a href="#services" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Reparación</a>
-            <a href="#contact" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contacto</a>
-            <a href="#licenses" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Licencias y Activacion 🔑</a>
+            <a href="#hero" class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Inicio</a>
+            <a href="#offers"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ofertas</a>
+            <a href="#products"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Laptops</a>
+            <a href="#services"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Reparación</a>
+            <a href="#contact"
+                class="text-lg font-open-sans text-gray-300 hover:text-accent-blue transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contacto</a>
         </nav>
     </div>
 
-    <section id="hero" class="relative bg-center h-screen text-center rounded-b-xl"
-        style="background-image: url('https://i.ibb.co/Fb93s8Wf/1749964525606.png'); background-size: contain; background-repeat: repeat;">
-        <div class="absolute inset-0 bg-black opacity-40 rounded-b-xl"></div>
+    <section id="hero" class="relative bg-base-light h-screen text-center rounded-b-xl overflow-hidden">
+        <div id="hero-3d-container" class="absolute inset-0 z-0 cursor-pointer"></div>
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-transparent via-base-light/50 to-base-light z-0 pointer-events-none">
+        </div>
         <div class="relative z-10 p-8 max-w-4xl mx-auto flex flex-col h-full">
-            <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mt-0">Soluciones Informaticas Avanzadas.</h1>
+            <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mt-0">Soluciones
+                Informaticas Avanzadas.</h1>
 
             <div class="mt-auto">
-                <p class="text-xl md:text-2xl font-open-sans text-gray-200 mb-10">Venta y Reparación de Equipos de computo con Garantía y Eficiencia.</p>
+                <p class="text-xl md:text-2xl font-open-sans text-gray-200 mb-10">Venta y Reparación de Equipos de
+                    computo con Garantía y Eficiencia.</p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap">
-                    <a href="#products" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora Laptops</a>
-                    <a href="#services" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicitar Reparación</a>
-                    <button id="laptop-assistant-btn" class="inline-block bg-purple-600 text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                    <a href="#products"
+                        class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora
+                        Laptops</a>
+                    <a href="#services"
+                        class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicitar
+                        Reparación</a>
+                    <button id="laptop-assistant-btn"
+                        class="inline-block bg-purple-600 text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
                         Descubre la computadora ideal para ti ✨
                     </button>
                 </div>
@@ -283,62 +368,80 @@
         </div>
     </section>
 
-    <section id="offers" class="py-16 px-6 md:px-12 bg-white">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Ofertas Exclusivas 🔥</h2>
+    <section id="offers" class="py-16 px-6 md:px-12 bg-base-light">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Ofertas Exclusivas 🔥</h2>
         <div id="offers-grid" class="grid grid-cols-2 gap-4 md:grid-cols-2 max-w-4xl mx-auto">
-            </div>
+        </div>
     </section>
 
     <section id="products" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Laptops</h2>
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Laptops</h2>
 
         <div class="flex flex-wrap justify-center gap-4 mb-10">
-            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Todas</button>
-            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Dell</button>
-            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">HP</button>
-            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Lenovo</button>
-            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Asus</button>
+            <button
+                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Todas</button>
+            <button
+                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Dell</button>
+            <button
+                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">HP</button>
+            <button
+                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Lenovo</button>
+            <button
+                class="bg-base-card text-white px-5 py-2 rounded-full border border-gray-700 hover:bg-accent-blue transition duration-300 rounded-xl">Asus</button>
         </div>
 
         <div id="product-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            </div>
+        </div>
     </section>
 
-    <section id="licenses" class="py-16 px-6 md:px-12 bg-white">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Licencias y Activacion 🔑</h2>
+    <section id="licenses" class="py-16 px-6 md:px-12 bg-base-light">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Licencias y Activacion 🔑</h2>
         <div id="licenses-grid" class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
+        </div>
     </section>
 
-    <section id="services" class="py-16 px-6 md:px-12 bg-white">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Servicios de Reparación</h2>
+    <section id="services" class="py-16 px-6 md:px-12 bg-base-light">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">Servicios de Reparación</h2>
         <div class="max-w-3xl mx-auto text-center">
-            <p class="text-lg font-open-sans mb-8">En SIA TEC, ofrecemos un servicio de reparación de Equipos de computo integral y confiable. Desde diagnósticos precisos hasta reparaciones de hardware y software, nuestro equipo de expertos está listo para devolverle la vida a tu equipo.</p>
+            <p class="text-lg font-open-sans mb-8 text-gray-300">En SIA TEC, ofrecemos un servicio de reparación de
+                Equipos de computo integral y confiable. Desde diagnósticos precisos hasta reparaciones de hardware y
+                software, nuestro equipo de expertos está listo para devolverle la vida a tu equipo.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mb-10">
-                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                <div
+                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
                     <i class="fas fa-microchip text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Reparación de Hardware</h3>
-                    <p class="text-md font-open-sans">Cambio de pantallas, teclados, baterías, discos duros, y componentes internos.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Reparación de Hardware</h3>
+                    <p class="text-md font-open-sans text-gray-400">Cambio de pantallas, teclados, baterías, discos
+                        duros, y componentes internos.</p>
                 </div>
-                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                <div
+                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
                     <i class="fas fa-laptop-code text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Mantenimiento de Software</h3>
-                    <p class="text-md font-open-sans">Eliminación de virus, optimización de sistema, instalación de sistemas operativos.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Mantenimiento de Software</h3>
+                    <p class="text-md font-open-sans text-gray-400">Eliminación de virus, optimización de sistema,
+                        instalación de sistemas operativos.</p>
                 </div>
-                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                <div
+                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
                     <i class="fas fa-diagnoses text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Diagnóstico y Asesoría</h3>
-                    <p class="text-md font-open-sans">Diagnóstico gratuito y asesoramiento personalizado para tus necesidades.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Diagnóstico y Asesoría</h3>
+                    <p class="text-md font-open-sans text-gray-400">Diagnóstico gratuito y asesoramiento personalizado
+                        para tus necesidades.</p>
                 </div>
-                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                <div
+                    class="bg-base-card p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300 border border-gray-800">
                     <i class="fas fa-fan text-4xl text-accent-blue mb-4"></i>
-                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Limpieza y Optimización</h3>
-                    <p class="text-md font-open-sans">Limpieza interna, cambio de pasta térmica y optimización de rendimiento.</p>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3 text-white">Limpieza y Optimización</h3>
+                    <p class="text-md font-open-sans text-gray-400">Limpieza interna, cambio de pasta térmica y
+                        optimización de rendimiento.</p>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
-                <a href="#" id="cotizar-reparacion-btn" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Cotizar Reparación</a>
-                <button id="ai-diagnosis-btn" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                <a href="#" id="cotizar-reparacion-btn"
+                    class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Cotizar
+                    Reparación</a>
+                <button id="ai-diagnosis-btn"
+                    class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
                     Diagnóstico Inteligente ✨
                 </button>
             </div>
@@ -346,19 +449,26 @@
     </section>
 
     <section id="about" class="py-16 px-6 md:px-12 bg-base-light">
-        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">¿Por Qué Elegir SIA TEC?</h2>
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12 text-white">¿Por Qué Elegir SIA TEC?</h2>
         <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="text-center md:text-left">
-                <p class="text-lg font-open-sans leading-relaxed mb-6">En SIA TEC, nos apasiona la tecnología y nos dedicamos a ofrecer soluciones integrales para tus laptops. Con años de experiencia, un equipo de técnicos certificados y un compromiso inquebrantable con la calidad, somos tu socio tecnológico de confianza.</p>
-                <p class="text-lg font-open-sans leading-relaxed">Nuestra misión es brindarte productos de alta calidad y servicios de reparación eficientes, garantizando que tu experiencia tecnológica sea siempre la mejor.</p>
+                <p class="text-lg font-open-sans leading-relaxed mb-6 text-gray-300">En SIA TEC, nos apasiona la
+                    tecnología y nos dedicamos a ofrecer soluciones integrales para tus laptops. Con años de
+                    experiencia, un equipo de técnicos certificados y un compromiso inquebrantable con la calidad, somos
+                    tu socio tecnológico de confianza.</p>
+                <p class="text-lg font-open-sans leading-relaxed text-gray-300">Nuestra misión es brindarte productos de
+                    alta calidad y servicios de reparación eficientes, garantizando que tu experiencia tecnológica sea
+                    siempre la mejor.</p>
             </div>
             <div class="space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Excelente servicio de reparación, mi laptop quedó como nueva. ¡Totalmente recomendados!"</p>
+                <div class="bg-base-card p-6 rounded-xl shadow-md border border-gray-700">
+                    <p class="text-md italic font-open-sans text-gray-400 mb-3">"Excelente servicio de reparación, mi
+                        laptop quedó como nueva. ¡Totalmente recomendados!"</p>
                     <p class="text-sm font-montserrat font-semibold text-accent-blue">- Ana G.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Compré mi laptop aquí y la atención fue de primera. Muy satisfecho con mi compra."</p>
+                <div class="bg-base-card p-6 rounded-xl shadow-md border border-gray-700">
+                    <p class="text-md italic font-open-sans text-gray-400 mb-3">"Compré mi laptop aquí y la atención fue
+                        de primera. Muy satisfecho con mi compra."</p>
                     <p class="text-sm font-montserrat font-semibold text-accent-blue">- Carlos M.</p>
                 </div>
             </div>
@@ -369,46 +479,65 @@
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
                 <h3 class="text-xl font-montserrat font-bold mb-4">Contacto</h3>
-                <p class="text-md font-open-sans mb-2"><i class="fas fa-phone-alt mr-2 text-accent-blue"></i> +52 77 1395 1347</p>
-                <p class="text-md font-open-sans mb-2"><i class="fas fa-envelope mr-2 text-accent-blue"></i> info@siatec.com</p>
-                <p class="text-md font-open-sans"><i class="fas fa-map-marker-alt mr-2 text-accent-blue"></i> Pachuca, Hidalgo, México</p>
+                <p class="text-md font-open-sans mb-2"><i class="fas fa-phone-alt mr-2 text-accent-blue"></i> +52 77
+                    1395 1347</p>
+                <p class="text-md font-open-sans mb-2"><i class="fas fa-envelope mr-2 text-accent-blue"></i>
+                    info@siatec.com</p>
+                <p class="text-md font-open-sans"><i class="fas fa-map-marker-alt mr-2 text-accent-blue"></i> Pachuca,
+                    Hidalgo, México</p>
             </div>
 
             <div>
                 <h3 class="text-xl font-montserrat font-bold mb-4">Enlaces</h3>
                 <ul class="space-y-2">
-                    <li><a href="#hero" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Inicio</a></li>
-                    <li><a href="#offers" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Ofertas</a></li>
-                    <li><a href="#products" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Laptops</a></li>
-                    <li><a href="#services" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Reparación</a></li>
-                    <li><a href="#about" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Sobre Nosotros</a></li>
+                    <li><a href="#hero"
+                            class="text-md font-open-sans hover:text-accent-blue transition duration-300">Inicio</a>
+                    </li>
+                    <li><a href="#offers"
+                            class="text-md font-open-sans hover:text-accent-blue transition duration-300">Ofertas</a>
+                    </li>
+                    <li><a href="#products"
+                            class="text-md font-open-sans hover:text-accent-blue transition duration-300">Laptops</a>
+                    </li>
+                    <li><a href="#services"
+                            class="text-md font-open-sans hover:text-accent-blue transition duration-300">Reparación</a>
+                    </li>
+                    <li><a href="#about"
+                            class="text-md font-open-sans hover:text-accent-blue transition duration-300">Sobre
+                            Nosotros</a></li>
                 </ul>
             </div>
 
             <div class="flex flex-col items-start md:items-end">
                 <h3 class="text-xl font-montserrat font-bold mb-4">Síguenos</h3>
                 <div class="flex space-x-4 mb-6">
-                    <a href="https://www.facebook.com/people/Siatec-Soluciones-Inform%C3%A1ticas-Avanzadas/61577377612346/?locale=es_LA" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/people/Siatec-Soluciones-Inform%C3%A1ticas-Avanzadas/61577377612346/?locale=es_LA"
+                        class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i
+                            class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i
+                            class="fab fa-twitter"></i></a>
                 </div>
                 <p class="text-sm font-open-sans text-gray-400">&copy; 2025 SIA TEC. Todos los derechos reservados.</p>
-                <a href="#" class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2">Política de Privacidad</a>
+                <a href="#"
+                    class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2">Política
+                    de Privacidad</a>
             </div>
         </div>
     </footer>
 
     <div class="floating-buttons-container">
         <a href="https://wa.me/527713951347?text=Hola!%20Me%20gustar%C3%ADa%20hablar%20con%20un%20t%C3%A9cnico%20sobre%20una%20reparaci%C3%B3n."
-            target="_blank"
-            class="floating-button whatsapp">
+            target="_blank" class="floating-button whatsapp">
             <i class="fab fa-whatsapp"></i>
             <span class="label">Hablar con un Técnico</span>
         </a>
 
         <button id="floating-cart-btn" class="floating-button">
             <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count-floating" class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            <span id="cart-count-floating"
+                class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
         </button>
     </div>
 
@@ -416,7 +545,8 @@
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-3xl font-montserrat font-bold">Tu Carrito</h3>
-                <button id="close-cart-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
+                <button id="close-cart-modal"
+                    class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
             <div id="cart-items-list" class="space-y-4 max-h-80 overflow-y-auto pr-2">
                 <p class="text-gray-500 text-center" id="empty-cart-message">Tu carrito está vacío.</p>
@@ -425,19 +555,24 @@
                 <span class="text-xl font-montserrat font-semibold">Total:</span>
                 <span id="cart-total" class="text-2xl font-montserrat font-bold text-accent-blue">$0.00</span>
             </div>
-            <button id="checkout-btn" class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 mt-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Finalizar Pedido</button>
+            <button id="checkout-btn"
+                class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 mt-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Finalizar
+                Pedido</button>
         </div>
     </div>
 
     <div id="whatsapp-modal-overlay" class="modal-overlay">
         <div class="modal-content text-center">
             <div class="flex justify-end">
-                <button id="close-whatsapp-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
+                <button id="close-whatsapp-modal"
+                    class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
             <i class="fab fa-whatsapp text-6xl text-green-500 mb-6"></i>
             <h3 class="text-3xl font-montserrat font-bold mb-4">¡Casi Listo!</h3>
-            <p class="text-lg font-open-sans mb-8">Estás a punto de finalizar tu pedido vía WhatsApp Business. Haz clic en el botón para enviar los detalles y que uno de nuestros asesores te contacte.</p>
-            <button id="send-whatsapp-btn" class="w-full bg-green-500 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-3 rounded-xl">
+            <p class="text-lg font-open-sans mb-8">Estás a punto de finalizar tu pedido vía WhatsApp Business. Haz clic
+                en el botón para enviar los detalles y que uno de nuestros asesores te contacte.</p>
+            <button id="send-whatsapp-btn"
+                class="w-full bg-green-500 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-3 rounded-xl">
                 <i class="fab fa-whatsapp text-2xl"></i>
                 <span>Enviar Pedido por WhatsApp</span>
             </button>
@@ -448,11 +583,16 @@
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-3xl font-montserrat font-bold">Diagnóstico Inteligente ✨</h3>
-                <button id="close-diagnosis-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
+                <button id="close-diagnosis-modal"
+                    class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
-            <p class="text-md font-open-sans mb-4">Describe el problema de tu laptop. Nuestro asistente de IA te dará un diagnóstico preliminar.</p>
-            <textarea id="problem-description" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-32 mb-6" placeholder="Ejemplo: Mi laptop no enciende, solo parpadea una luz..."></textarea>
-            <button id="get-diagnosis-btn" class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+            <p class="text-md font-open-sans mb-4">Describe el problema de tu laptop. Nuestro asistente de IA te dará un
+                diagnóstico preliminar.</p>
+            <textarea id="problem-description"
+                class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-32 mb-6"
+                placeholder="Ejemplo: Mi laptop no enciende, solo parpadea una luz..."></textarea>
+            <button id="get-diagnosis-btn"
+                class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
                 Obtener Diagnóstico
             </button>
             <div id="diagnosis-result" class="mt-8 p-4 bg-base-light rounded-xl border border-gray-200 hidden">
@@ -460,960 +600,804 @@
                 <div id="diagnosis-text" class="text-md font-open-sans leading-relaxed"></div>
             </div>
             <div id="diagnosis-loader" class="loader hidden"></div>
-            <p id="diagnosis-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.</p>
+            <p id="diagnosis-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener el
+                diagnóstico. Inténtalo de nuevo.</p>
         </div>
-    </div >
+    </div>
 
     <div id="laptop-assistant-modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-3xl font-montserrat font-bold">Asesor de Equipos de Computo 🧑‍💻</h3>
-                <button id="close-laptop-assistant-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
+                <button id="close-laptop-assistant-modal"
+                    class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
-            <p class="text-md font-open-sans mb-4">¡Te ayudamos a encontrar el equipo de computo Ideal para ti! Responde a las siguientes preguntas:</p>
+            <p class="text-md font-open-sans mb-4">¡Te ayudamos a encontrar el equipo de computo Ideal para ti! Responde
+                a las siguientes preguntas:</p>
 
             <div class="mb-4">
-                <label for="profession-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿A qué te dedicas?</label>
-                <textarea id="profession-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24" placeholder="Ej: Estudiante de ingeniería, diseñador gráfico, profesional de ventas..."></textarea>
+                <label for="profession-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿A
+                    qué te dedicas?</label>
+                <textarea id="profession-input"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24"
+                    placeholder="Ej: Estudiante de ingeniería, diseñador gráfico, profesional de ventas..."></textarea>
             </div>
 
             <div class="mb-4">
-                <label for="programs-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Qué programas o software utilizas?</label>
-                <textarea id="programs-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24" placeholder="Ej: Suite Adobe (Photoshop, Illustrator), AutoCAD, Visual Studio Code, Microsoft Office, juegos..."></textarea>
+                <label for="programs-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Qué
+                    programas o software utilizas?</label>
+                <textarea id="programs-input"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24"
+                    placeholder="Ej: Suite Adobe (Photoshop, Illustrator), AutoCAD, Visual Studio Code, Microsoft Office, juegos..."></textarea>
             </div>
 
             <div class="mb-6">
-                <label for="budget-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Cuál es tu presupuesto aproximado en MXN?</label>
-                <input type="number" id="budget-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans" placeholder="Ej: 15000, 25000, 35000" min="0">
+                <label for="budget-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Cuál
+                    es tu presupuesto aproximado en MXN?</label>
+                <input type="number" id="budget-input"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans"
+                    placeholder="Ej: 15000, 25000, 35000" min="0">
             </div>
 
-            <button id="get-laptop-recommendation-btn" class="w-full bg-purple-600 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+            <button id="get-laptop-recommendation-btn"
+                class="w-full bg-purple-600 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
                 Obtener Recomendación
             </button>
 
-            <div id="laptop-recommendation-result" class="mt-8 p-4 bg-base-light rounded-xl border border-gray-200 hidden">
+            <div id="laptop-recommendation-result"
+                class="mt-8 p-4 bg-base-light rounded-xl border border-gray-200 hidden">
                 <h4 class="text-xl font-montserrat font-bold mb-3">Tu Laptop Ideal:</h4>
                 <div id="recommendation-text" class="text-md font-open-sans leading-relaxed"></div>
             </div>
             <div id="laptop-recommendation-loader" class="loader hidden"></div>
-            <p id="laptop-recommendation-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener la recomendación. Inténtalo de nuevo.</p>
+            <p id="laptop-recommendation-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener
+                la recomendación. Inténtalo de nuevo.</p>
         </div>
     </div>
 
     <div id="image-modal-overlay" class="modal-overlay">
         <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
-            <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
+            <button id="close-image-modal"
+                class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
                 &times;
             </button>
 
             <div class="relative mb-4 flex items-center justify-center">
-                <button id="modal-prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
+                <button id="modal-prev-btn"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[70vh] mx-auto object-contain">
-                <button id="modal-next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
+                <img id="modal-image" src="" alt="Imagen de producto grande"
+                    class="max-w-full max-h-[70vh] mx-auto object-contain">
+                <button id="modal-next-btn"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
 
             <div id="modal-image-indicators" class="flex justify-center space-x-2 mt-2 mb-4">
-                </div>
+            </div>
 
             <h3 id="modal-product-name" class="text-2xl font-montserrat font-bold mb-2"></h3>
             <p id="modal-product-description" class="text-md font-open-sans text-gray-700 text-left"></p>
         </div>
     </div>
 
-    <script type="module">
-        // Importaciones de Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { init3DHero } from './3d-hero.js';
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from
+    "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, getDocs } from
+    "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Inicialización de Firebase con la configuración proporcionada o la global de Canvas
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
-            authDomain: "siatec-a88de.firebaseapp.com",
-            projectId: "siatec-a88de",
-            storageBucket: "siatec-a88de.firebasestorage.app",
-            messagingSenderId: "558101434635",
-            appId: "1:558101434635:web:38347725aa168e7587520e",
-            measurementId: "G-ZZ274STXJ7"
-        };
-        const appId = typeof __app_id !== 'undefined' ? __app_id : "1:558101434635:web:38347725aa168e7587520e"; // Usa tu appId o la global de Canvas
+    // Inicialización de Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
+    authDomain: "siatec-a88de.firebaseapp.com",
+    projectId: "siatec-a88de",
+    storageBucket: "siatec-a88de.firebasestorage.app",
+    messagingSenderId: "558101434635",
+    appId: "1:558101434635:web:38347725aa168e7587520e",
+    measurementId: "G-ZZ274STXJ7"
+    };
+    const appId = "1:558101434635:web:38347725aa168e7587520e";
 
-        let app;
-        let db;
-        let auth;
-        let userId;
+    let app;
+    let db;
+    let auth;
+    let userId;
 
-        // Inicializar Firebase y autenticar
-        document.addEventListener('DOMContentLoaded', async () => {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
+    // Array para almacenar los productos (ahora dinámico)
+    let products = [];
+    let cart = [];
 
-            // Autenticar al usuario
-            try {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                userId = auth.currentUser?.uid; // Obtiene el UID del usuario autenticado
-                console.log("Firebase inicializado y usuario autenticado:", userId);
-            } catch (error) {
-                console.error("Error durante la autenticación de Firebase:", error);
-                userId = crypto.randomUUID(); // Fallback a un ID aleatorio si la autenticación falla
-            }
-            
-            // Llamadas de renderizado iniciales después de la inicialización de Firebase
-            renderOffers();
-            renderProducts();
-            renderLicenses();
-            updateCartUI();
-        });
+    // Inicializar Firebase y Componentes
+    document.addEventListener('DOMContentLoaded', async () => {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
 
+    // Iniciar 3D Hero
+    init3DHero('hero-3d-container');
 
-        // Array para almacenar los productos en el carrito
-        let cart = [];
+    // Autenticar al usuario
+    try {
+    await signInAnonymously(auth);
+    userId = auth.currentUser?.uid;
+    } catch (error) {
+    console.error("Error Auth:", error);
+    userId = crypto.randomUUID();
+    }
 
-        // Variables globales para la galería de imágenes del modal
-        let currentProductImageUrls = [];
-        let currentImageCarouselIndex = 0;
+    // Cargar productos de Firestore
+    await fetchProducts();
+    });
 
-        // Datos de productos de ejemplo con stock y ofertas
-        const products = [
-            {
-                id: 1,
-                name: 'Lenovo Ultra Thinkpad E16 G2',
-                originalPrice: 31888.88, // Precio original
-                price: 28700, // Precio con descuento
-                description: 'Gama Media <br> Procesador: Intel Core Ultra 7 155H <br> Ram: 16 GB DDR5 <br> Almacenamiento: 512  GB SSD NVME <br> Display: 16” Full HD <br> GPU: Intel Arc <br> Sistema Operativo: Windows 11.',
-                image: 'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
-                images: [ // Múltiples imágenes para el carrusel
-                    'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
-                    'https://placehold.co/800x600/FF5733/FFFFFF?text=Lenovo+E16+G2+Vista+Lateral',
-                    'https://placehold.co/800x600/33FF57/FFFFFF?text=Lenovo+E16+G2+Teclado'
-                ],
-                stock: 5,
-                isOnOffer: true,
-                discountPercentage: '10%'
-            },
-            {
-                id: 2,
-                name: 'Lenovo ThinkPad P1 G3',
-                originalPrice: 24375.00,
-                price: 19500.00, // Precio con descuento
-                description: 'Gama Alta <br> Procesador: Intel Xeon® W-10855M vPro <br> Ram: 16 GB DDR4 <br> Almacenamiento: 1 TB SSD NVME <br> Display: 15.6” FHD <br> GPU: NVIDIA® T2000 de 4GB <br> Sistema Operativo: Windows 11.',
-                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
-                images: [
-                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3puZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
-                    'https://placehold.co/800x600/3366FF/FFFFFF?text=Lenovo+P1+G3+Ángulo',
-                    'https://placehold.co/800x600/FFFF33/333333?text=Lenovo+P1+G3+Abierta'
-                ],
-                stock: 3,
-                isOnOffer: true,
-                discountPercentage: '20%'
-            },
-            {
-                id: 3,
-                name: 'Lenovo ThinkPad T480s',
-                originalPrice: 13800.00, // Precio original
-                price: 11500.00,
-                description: 'Gama Media <br> Procesador: Intel Core i7-8650U <br> Ram: 24 GB DDR4 <br> Almacenamiento: 256  GB SSD <br> Display: 14” Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 Pro.',
-                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
-                images: [
-                    'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
-                    'https://placehold.co/800x600/CC33FF/FFFFFF?text=Lenovo+T480s+Detalle+1',
-                    'https://placehold.co/800x600/FF33CC/FFFFFF?text=Lenovo+T480s+Detalle+2'
-                ],
-                stock: 7,
-                isOnOffer: true,
-                discountPercentage: '20%'
-            },
-            {
-                id: 11,
-                name: 'Dell Latitude 7420 Touch',
-                originalPrice: 13625, // Precio original
-                price: 10900.00,
-                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
-                image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
-                images: [
-                    'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
-                    'https://placehold.co/800x600/AACCFF/000000?text=Dell+7420+Touch+Vista+Superior',
-                    'https://placehold.co/800x600/FFCCAA/000000?text=Dell+7420+Touch+Plegada'
-                ],
-                stock: 7,
-                isOnOffer: true,
-                discountPercentage: '20%'
-            },
-            {
-                id: 4,
-                name: 'Lenovo ThinkPad P15s G1',
-                price: 18500.00,
-                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11.',
-                image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
-                images: [
-                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg'
-                ],
-                stock: 4,
-                isOnOffer: false
-            },
-            {
-                id: 5,
-                name: 'Dell Latitude 7330 Touch 2 en 1',
-                price: 11000.00,
-                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: Windows 11.',
-                image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg' ,
-                images: [
-                    'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg'
-                ],
-                stock: 6,
-                isOnOffer: false
-            },
-            {
-                id: 6,
-                name: 'Dell G15 5520 Gaming',
-                price: 18900.00,
-                description: 'Gama Alta <br> Procesador: Intel Core i7 12700H <br> Ram: 32 GB DDR5 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD 120 hz <br> GPU: NVIDIA RTX 3060 6GB <br> Sistema Operativo: Windows 11.',
-                image: 'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp',
-                images: [
-                    'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp'
-                ],
-                stock: 8,
-                isOnOffer: false
-            },
-            {
-                id: 7,
-                name: 'Dell Latitude 5420 ',
-                price: 7200.00,
-                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
-                image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
-                images: [
-                    'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
-                    'https://placehold.co/800x600/FFCC00/FFFFFF?text=Dell+Latitude+5420+Vista+Lateral',
-                    'https://placehold.co/800x600/00FFCC/FFFFFF?text=Dell+Latitude+5420+Teclado'
-                ],
-                stock: 8,
-                isOnOffer: false
-            },
-            {
-                id: 8,
-                name: 'Dell Latitude 7490',
-                price: 5800.00,
-                description: 'Gama Media <br> Procesador: Intel Core i5-8250U <br> Ram: 8GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
-                image: 'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png',
-                images: [
-                    'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png'
-                ],
-                stock: 10,
-                isOnOffer: false
-            },
-            {
-                id: 9,
-                name: 'Dell Latitude 5500 Touch',
-                price: 6900.00,
-                description: 'Gama Media <br> Procesador: Intel Core i5-8365U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 15,6" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
-                image: 'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg',
-                images: [
-                    'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg'
-                ],
-                stock: 10,
-                isOnOffer: false
-            },
-            // Nuevos productos para licencias de Windows
-            {
-                id: 100,
-                name: 'Licencia Windows 10 Pro (ESD)',
-                price: 450.00,
-                description: 'Licencia digital para Windows 10 Pro. Ideal para usuarios empresariales y avanzados. Activación instantánea.',
-                image: 'https://i.ibb.co/NnCMHzfp/w10-pro.png',
-                images: ['https://i.ibb.co/NnCMHzfp/w10-pro.png'],
-                stock: 99,
-                isOnOffer: false
-            },
-            {
-                id: 101,
-                name: 'Licencia Windows 11 Pro (ESD)',
-                price: 650.00,
-                description: 'Licencia digital para Windows 11 Pro. Disfruta de la última experiencia Windows con seguridad y características mejoradas.',
-                image: 'https://i.ibb.co/TBc9G54q/w-11-pro.png',
-                images: ['https://i.ibb.co/TBc9G54q/w-11-pro.png'],
-                stock: 99,
-                isOnOffer: false
-            },
-            {
-                id: 102,
-                name: 'Microsoft Office Pro Plus 2021 (ESD)',
-                price: 450.00,
-                description: 'Licencia digital para Microsoft Office Pro Plus 2021. Incluye Word, Excel, PowerPoint y más. Activación instantánea.',
-                image: 'https://i.ibb.co/LdbrR6Zq/office-2021.png',
-                images: ['https://i.ibb.co/LdbrR6Zq/office-2021.png'],
-                stock: 99,
-                isOnOffer: false
-            },
-            {
-                id: 103,
-                name: 'Microsoft Office Pro Plus 2024 (ESD)',
-                price: 600.00,
-                description: 'Licencia digital para Microsoft Office Pro Plus 2024. Incluye las últimas versiones de Word, Excel, PowerPoint y más. Activación instantánea.',
-                image: 'https://i.ibb.co/7JpSs8Tg/office-2024.png',
-                images: ['https://i.ibb.co/7JpSs8Tg/office-2024.png'],
-                stock: 99,
-                isOnOffer: false
-            },
-            {
-                id: 104,
-                name: ' ESET NOD32 (2 AÑOS) (ESD)',
-                price: 650.00,
-                description: 'Antivirus ESET NOD32 para 2 años. Protección avanzada contra malware, ransomware y amenazas en línea. Licencia digital.',
-                image: 'https://live.staticflickr.com/5123/5200939230_8d86ba71cb_z.jpg',
-                images: ['https://live.staticflickr.com/5123/5200939230_8d86ba71cb_z.jpg'],
-                stock: 99,
-                isOnOffer: false
-            },
-            {
-                id: 104,
-                name: ' ESET NOD32 (2 AÑOS) (ESD)',
-                price: 650.00,
-                description: 'Antivirus ESET NOD32 para 2 años. Protección avanzada contra malware, ransomware y amenazas en línea. Licencia digital.',
-                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32',
-                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32'],
-                stock: 99,
-                isOnOffer: false
-            }        
-        ];
-        // Referencias a elementos del DOM
-        const productGrid = document.getElementById('product-grid');
-        const offersGrid = document.getElementById('offers-grid');
-        const licensesGrid = document.getElementById('licenses-grid'); // Nueva referencia para la sección de licencias
-        const cartIcon = document.getElementById('cart-icon');
-        const cartCount = document.getElementById('cart-count');
-        const cartModalOverlay = document.getElementById('cart-modal-overlay');
-        const closeCartModalBtn = document.getElementById('close-cart-modal');
-        const cartItemsList = document.getElementById('cart-items-list');
-        const cartTotal = document.getElementById('cart-total');
-        const checkoutBtn = document.getElementById('checkout-btn');
-        const emptyCartMessage = document.getElementById('empty-cart-message');
+    async function fetchProducts() {
+    try {
+    const querySnapshot = await getDocs(collection(db, "products"));
+    products = [];
+    querySnapshot.forEach((doc) => {
+    // Adaptar datos de Firestore al formato que espera la UI
+    const data = doc.data();
+    products.push({
+    id: doc.id,
+    ...data,
+    // Asegurar compatibilidad si faltan campos
+    description: data.description || '',
+    images: data.images || [data.image],
+    discountPercentage: data.discountPercentage || '10%'
+    });
+    });
 
-        const whatsappModalOverlay = document.getElementById('whatsapp-modal-overlay');
-        const closeWhatsappModalBtn = document.getElementById('close-whatsapp-modal');
-        const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
+    renderOffers();
+    renderProducts();
+    renderLicenses();
+    updateCartUI();
 
-        const searchToggle = document.getElementById('search-toggle');
-        const searchInput = document.getElementById('search-input');
+    console.log("Productos cargados:", products.length);
+    } catch (e) {
+    console.error("Error al cargar productos:", e);
+    // Fallback UI si falla
+    productGrid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error de conexión. No se pudieron cargar
+        los productos.</p>';
+    }
+    }
 
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+    const cartIcon = document.getElementById('cart-icon');
+    const cartCount = document.getElementById('cart-count');
+    const cartModalOverlay = document.getElementById('cart-modal-overlay');
+    const closeCartModalBtn = document.getElementById('close-cart-modal');
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartTotal = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
 
-        // Referencias para el Asistente de Diagnóstico
-        const aiDiagnosisBtn = document.getElementById('ai-diagnosis-btn');
-        const diagnosisModalOverlay = document.getElementById('diagnosis-modal-overlay');
-        const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
-        const problemDescriptionTextarea = document.getElementById('problem-description');
-        const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
-        const diagnosisResultDiv = document.getElementById('diagnosis-result');
-        const diagnosisTextDiv = document.getElementById('diagnosis-text');
-        const diagnosisLoader = document.getElementById('diagnosis-loader');
-        const diagnosisError = document.getElementById('diagnosis-error');
+    const whatsappModalOverlay = document.getElementById('whatsapp-modal-overlay');
+    const closeWhatsappModalBtn = document.getElementById('close-whatsapp-modal');
+    const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
 
-        // Referencias para el modal de imagen (incluyendo los nuevos elementos para la galería)
-        const imageModalOverlay = document.getElementById('image-modal-overlay');
-        const closeModalImageBtn = document.getElementById('close-image-modal');
-        const modalImage = document.getElementById('modal-image');
-        const modalProductName = document.getElementById('modal-product-name');
-        const modalProductDescription = document.getElementById('modal-product-description');
-        const modalPrevBtn = document.getElementById('modal-prev-btn'); // Nuevo
-        const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
-        const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
+    const searchToggle = document.getElementById('search-toggle');
+    const searchInput = document.getElementById('search-input');
 
-        // Get references for the new laptop assistant modal elements
-        const laptopAssistantBtn = document.getElementById('laptop-assistant-btn');
-        const laptopAssistantModalOverlay = document.getElementById('laptop-assistant-modal-overlay');
-        const closeLaptopAssistantModalBtn = document.getElementById('close-laptop-assistant-modal');
-        const professionInput = document.getElementById('profession-input');
-        const programsInput = document.getElementById('programs-input');
-        const budgetInput = document.getElementById('budget-input');
-        const getLaptopRecommendationBtn = document.getElementById('get-laptop-recommendation-btn');
-        const laptopRecommendationResult = document.getElementById('laptop-recommendation-result');
-        const recommendationText = document.getElementById('recommendation-text');
-        const laptopRecommendationLoader = document.getElementById('laptop-recommendation-loader');
-        const laptopRecommendationError = document.getElementById('laptop-recommendation-error');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-        // Function to open the laptop assistant modal
-        function openLaptopAssistantModal() {
-            laptopAssistantModalOverlay.classList.add('active');
-            // Clear previous results and inputs
-            professionInput.value = '';
-            programsInput.value = '';
-            budgetInput.value = '';
-            recommendationText.innerHTML = '';
-            laptopRecommendationResult.classList.add('hidden');
-            laptopRecommendationLoader.classList.add('hidden');
-            laptopRecommendationError.classList.add('hidden');
-        }                                                                                                               
-        // Function to close the laptop assistant modal
-        function closeLaptopAssistantModal() {
-            laptopAssistantModalOverlay.classList.remove('active');
+    // Referencias para el Asistente de Diagnóstico
+    const aiDiagnosisBtn = document.getElementById('ai-diagnosis-btn');
+    const diagnosisModalOverlay = document.getElementById('diagnosis-modal-overlay');
+    const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
+    const problemDescriptionTextarea = document.getElementById('problem-description');
+    const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
+    const diagnosisResultDiv = document.getElementById('diagnosis-result');
+    const diagnosisTextDiv = document.getElementById('diagnosis-text');
+    const diagnosisLoader = document.getElementById('diagnosis-loader');
+    const diagnosisError = document.getElementById('diagnosis-error');
+
+    // Referencias para el modal de imagen (incluyendo los nuevos elementos para la galería)
+    const imageModalOverlay = document.getElementById('image-modal-overlay');
+    const closeModalImageBtn = document.getElementById('close-image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalProductName = document.getElementById('modal-product-name');
+    const modalProductDescription = document.getElementById('modal-product-description');
+    const modalPrevBtn = document.getElementById('modal-prev-btn'); // Nuevo
+    const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
+    const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
+
+    // Get references for the new laptop assistant modal elements
+    const laptopAssistantBtn = document.getElementById('laptop-assistant-btn');
+    const laptopAssistantModalOverlay = document.getElementById('laptop-assistant-modal-overlay');
+    const closeLaptopAssistantModalBtn = document.getElementById('close-laptop-assistant-modal');
+    const professionInput = document.getElementById('profession-input');
+    const programsInput = document.getElementById('programs-input');
+    const budgetInput = document.getElementById('budget-input');
+    const getLaptopRecommendationBtn = document.getElementById('get-laptop-recommendation-btn');
+    const laptopRecommendationResult = document.getElementById('laptop-recommendation-result');
+    const recommendationText = document.getElementById('recommendation-text');
+    const laptopRecommendationLoader = document.getElementById('laptop-recommendation-loader');
+    const laptopRecommendationError = document.getElementById('laptop-recommendation-error');
+
+    // Function to open the laptop assistant modal
+    function openLaptopAssistantModal() {
+    laptopAssistantModalOverlay.classList.add('active');
+    // Clear previous results and inputs
+    professionInput.value = '';
+    programsInput.value = '';
+    budgetInput.value = '';
+    recommendationText.innerHTML = '';
+    laptopRecommendationResult.classList.add('hidden');
+    laptopRecommendationLoader.classList.add('hidden');
+    laptopRecommendationError.classList.add('hidden');
+    }
+    // Function to close the laptop assistant modal
+    function closeLaptopAssistantModal() {
+    laptopAssistantModalOverlay.classList.remove('active');
+    }
+
+    // Event listeners for the laptop assistant modal
+    laptopAssistantBtn.addEventListener('click', openLaptopAssistantModal);
+    closeLaptopAssistantModalBtn.addEventListener('click', closeLaptopAssistantModal);
+    laptopAssistantModalOverlay.addEventListener('click', (e) => {
+    if (e.target === laptopAssistantModalOverlay) {
+    closeLaptopAssistantModal();
+    }
+    });
+
+    // --- NEW: Laptop Recommendation Logic with Gemini API ---
+    getLaptopRecommendationBtn.addEventListener('click', async () => {
+    const profession = professionInput.value.trim();
+    const programs = programsInput.value.trim();
+    const budget = budgetInput.value.trim();
+
+    if (!profession || !programs || !budget) {
+    showTemporaryMessage('Por favor, completa todos los campos para la recomendación.', 'bg-red-500');
+    return;
+    }
+
+    // Show loader, hide previous results/errors
+    laptopRecommendationLoader.classList.remove('hidden');
+    laptopRecommendationResult.classList.add('hidden');
+    laptopRecommendationError.classList.add('hidden');
+    recommendationText.innerHTML = '';
+
+    try {
+    let chatHistory = [];
+    // Construct the prompt for Gemini, including the full products catalog
+    const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más
+    adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
+
+    **Información del Cliente:**
+    - Profesión: ${profession}
+    - Programas/Software: ${programs}
+    - Presupuesto: ${budget} MXN
+
+    **Catálogo de Laptops de SIA TEC (en formato JSON):**
+    ${JSON.stringify(products.filter(p => p.id < 100), null, 2)} Por favor, analiza el catálogo y la información del
+        cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus
+        especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con
+        todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué. Al final de tu
+        recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase
+        exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
+        `; chatHistory.push({ role: "user" , parts: [{ text: prompt }] }); const payload={ contents: chatHistory };
+        const apiKey="AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44" ; // Usa la apiKey de tu configuración de Firebase const
+        apiUrl=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        const response=await fetch(apiUrl, { method: 'POST' , headers: { 'Content-Type' : 'application/json' }, body:
+        JSON.stringify(payload) }); const result=await response.json(); let recommendationOutput='' ; if
+        (result.candidates && result.candidates.length> 0 &&
+        result.candidates[0].content && result.candidates[0].content.parts &&
+        result.candidates[0].content.parts.length > 0) {
+        recommendationOutput = result.candidates[0].content.parts[0].text;
+        recommendationText.innerHTML = recommendationOutput.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
+        laptopRecommendationResult.classList.remove('hidden');
+        } else {
+        laptopRecommendationError.classList.remove('hidden');
+        console.error('Estructura de respuesta inesperada del LLM:', result);
+        recommendationOutput = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas
+        una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por
+        WhatsApp o llamarnos al +52 77 1395 1347.";
+        recommendationText.innerHTML = recommendationOutput;
+        laptopRecommendationResult.classList.remove('hidden');
         }
 
-        // Event listeners for the laptop assistant modal
-        laptopAssistantBtn.addEventListener('click', openLaptopAssistantModal);
-        closeLaptopAssistantModalBtn.addEventListener('click', closeLaptopAssistantModal);
-        laptopAssistantModalOverlay.addEventListener('click', (e) => {
-            if (e.target === laptopAssistantModalOverlay) {
-                closeLaptopAssistantModal();
-            }
+        // Guardar la interacción en Firestore
+        if (db) {
+        try {
+        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+        userId: userId,
+        assistant: 'laptop_recommendation',
+        input: {
+        profession: profession,
+        programs: programs,
+        budget: budget
+        },
+        output: recommendationOutput,
+        timestamp: serverTimestamp()
         });
+        console.log("Laptop recommendation interaction saved to Firestore.");
+        } catch (dbError) {
+        console.error("Error saving laptop recommendation to Firestore:", dbError);
+        }
+        }
 
-        // --- NEW: Laptop Recommendation Logic with Gemini API ---
-        getLaptopRecommendationBtn.addEventListener('click', async () => {
-            const profession = professionInput.value.trim();
-            const programs = programsInput.value.trim();
-            const budget = budgetInput.value.trim();
-
-            if (!profession || !programs || !budget) {
-                showTemporaryMessage('Por favor, completa todos los campos para la recomendación.', 'bg-red-500');
-                return;
-            }
-
-            // Show loader, hide previous results/errors
-            laptopRecommendationLoader.classList.remove('hidden');
-            laptopRecommendationResult.classList.add('hidden');
-            laptopRecommendationError.classList.add('hidden');
-            recommendationText.innerHTML = '';
-
-            try {
-                let chatHistory = [];
-                // Construct the prompt for Gemini, including the full products catalog
-                const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
-
-            **Información del Cliente:**
-            - Profesión: ${profession}
-            - Programas/Software: ${programs}
-            - Presupuesto: ${budget} MXN
-
-            **Catálogo de Laptops de SIA TEC (en formato JSON):**
-            ${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
-
-            Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
-
-            Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
-            `;
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-                const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de Firebase
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                let recommendationOutput = '';
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    recommendationOutput = result.candidates[0].content.parts[0].text;
-                    recommendationText.innerHTML = recommendationOutput.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
-                    laptopRecommendationResult.classList.remove('hidden');
-                } else {
-                    laptopRecommendationError.classList.remove('hidden');
-                    console.error('Estructura de respuesta inesperada del LLM:', result);
-                    recommendationOutput = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
-                    recommendationText.innerHTML = recommendationOutput;
-                    laptopRecommendationResult.classList.remove('hidden');
-                }
-
-                // Guardar la interacción en Firestore
-                if (db) {
-                    try {
-                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
-                            userId: userId,
-                            assistant: 'laptop_recommendation',
-                            input: {
-                                profession: profession,
-                                programs: programs,
-                                budget: budget
-                            },
-                            output: recommendationOutput,
-                            timestamp: serverTimestamp()
-                        });
-                        console.log("Laptop recommendation interaction saved to Firestore.");
-                    } catch (dbError) {
-                        console.error("Error saving laptop recommendation to Firestore:", dbError);
-                    }
-                }
-
-            } catch (error) {
-                laptopRecommendationError.classList.remove('hidden');
-                console.error('Error al llamar a la API de Gemini para la recomendación:', error);
-                recommendationText.innerHTML = "Ocurrió un error al obtener la recomendación. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
-                laptopRecommendationResult.classList.remove('hidden');
-            } finally {
-                laptopRecommendationLoader.classList.add('hidden');
-            }
+        } catch (error) {
+        laptopRecommendationError.classList.remove('hidden');
+        console.error('Error al llamar a la API de Gemini para la recomendación:', error);
+        recommendationText.innerHTML = "Ocurrió un error al obtener la recomendación. Si aún no estás seguro o necesitas
+        una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por
+        WhatsApp o llamarnos al +52 77 1395 1347.";
+        laptopRecommendationResult.classList.remove('hidden');
+        } finally {
+        laptopRecommendationLoader.classList.add('hidden');
+        }
         });
         // --- END NEW: Laptop Recommendation Logic ---
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative';
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card bg-base-card p-6 rounded-xl shadow-md flex flex-col justify-between
+        transform transition-all duration-300 ease-in-out hover:scale-105 relative border border-gray-800';
 
-            let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>`; // Ajustado tamaño y color para la imagen
-            let offerBadge = '';
+        let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price ?
+            product.price.toFixed(2) : '0.00'}</span>`;
+        let offerBadge = '';
 
-            if (product.isOnOffer) {
-                priceHtml = `
-                    <span class="original-price text-sm text-gray-300 mr-1">$${product.originalPrice.toFixed(2)}</span> <span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
-                `;
-                offerBadge = `<span class="offer-badge">¡${product.discountPercentage} OFF!</span>`;
-            }
+        if (product.isOnOffer) {
+        priceHtml = `
+        <span class="original-price text-sm text-gray-500 mr-1">$${product.originalPrice ?
+            product.originalPrice.toFixed(2) : ''}</span> <span
+            class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
+        `;
+        offerBadge = `<span class="offer-badge">¡${product.discountPercentage || 'OFERTA'} OFF!</span>`;
+        }
 
-            const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
-            const stockColor = product.stock > 0 ? 'text-gray-500' : 'text-red-500 font-semibold';
-            const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
-            const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
+        const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
+        const stockColor = product.stock > 0 ? 'text-gray-400' : 'text-red-500 font-semibold';
+        const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
+        const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
 
-            productCard.innerHTML = `
-                ${offerBadge}
-                <div class="relative w-full"> <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
-                    <div class="absolute bottom-2 right-2 bg-black/70 rounded-lg px-2 py-1 flex items-center justify-center"> ${priceHtml}
-                    </div>
-                </div>
-                <h3 class="text-xl font-montserrat font-semibold mt-4 mb-2">${product.name}</h3> <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
-                <p class="text-sm font-open-sans text-gray-600 mb-4 h-20 overflow-hidden">${product.description}</p>
-                <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
-                <div class="flex justify-center mt-auto"> <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
-                        ${buttonText}
-                    </button>
-                </div>
-            `;
-            return productCard;
+        productCard.innerHTML = `
+        ${offerBadge}
+        <div class="relative w-full mb-4">
+            <img src="${product.image}" alt="${product.name}"
+                class="w-full h-32 md:h-48 object-contain rounded-lg cursor-pointer" data-product-id="${product.id}">
+            <div class="absolute bottom-2 right-2 bg-black/70 rounded-lg px-2 py-1 flex items-center justify-center">
+                ${priceHtml}
+            </div>
+        </div>
+        <h3 class="text-xl font-montserrat font-semibold mt-0 mb-2 text-white">${product.name}</h3>
+        <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
+        <div class="text-sm font-open-sans text-gray-400 mb-4 h-20 overflow-hidden text-ellipsis">${product.description}
+        </div>
+        <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
+        <div class="flex justify-center mt-auto"> <button data-product-id="${product.id}"
+                class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}"
+                ${product.stock===0 ? 'disabled' : '' }>
+                ${buttonText}
+            </button>
+        </div>
+        `;
+        return productCard;
         }
 
         // Función para renderizar los productos en la sección principal
         function renderProducts() {
-            productGrid.innerHTML = '';
-            products.filter(p => !p.isOnOffer && p.id < 100).forEach(product => { // Mostrar solo laptops (id < 100) y que NO están en oferta aquí
-                productGrid.appendChild(createProductCard(product));
-            });
-            attachAddToCartListeners();
-            attachImageClickListeners();
-        }
-
-        // Función para renderizar los productos en oferta
-        function renderOffers() {
-            offersGrid.innerHTML = '';
-            products.filter(p => p.isOnOffer).forEach(product => {
+        productGrid.innerHTML = '';
+        products.filter(p => !p.isOnOffer && p.id < 100).forEach(product=> { // Mostrar solo laptops (id < 100) y que NO
+                están en oferta aquí productGrid.appendChild(createProductCard(product)); });
+                attachAddToCartListeners(); attachImageClickListeners(); } // Función para renderizar los productos en
+                oferta function renderOffers() { offersGrid.innerHTML='' ; products.filter(p=>
+                p.isOnOffer).forEach(product => {
                 offersGrid.appendChild(createProductCard(product));
-            });
-            attachAddToCartListeners();
-            attachImageClickListeners();
-        }
+                });
+                attachAddToCartListeners();
+                attachImageClickListeners();
+                }
 
-        // NUEVA Función para renderizar los productos de licencias
-        function renderLicenses() {
-            licensesGrid.innerHTML = '';
-            products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100 (licencias)
+                // NUEVA Función para renderizar los productos de licencias
+                function renderLicenses() {
+                licensesGrid.innerHTML = '';
+                products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100
+                (licencias)
                 licensesGrid.appendChild(createProductCard(product));
-            });
-            attachAddToCartListeners();
-            attachImageClickListeners();
-        }
-
-        // Función para añadir un producto al carrito
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                if (product.stock <= 0) {
-                    showTemporaryMessage('¡Producto agotado!', 'bg-red-500');
-                    return;
+                });
+                attachAddToCartListeners();
+                attachImageClickListeners();
                 }
 
-                const existingItem = cart.find(item => item.id === productId);
-                if (existingItem) {
+                // Función para añadir un producto al carrito
+                function addToCart(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                if (product.stock <= 0) { showTemporaryMessage('¡Producto agotado!', 'bg-red-500' ); return; } const
+                    existingItem=cart.find(item=> item.id === productId);
+                    if (existingItem) {
                     existingItem.quantity++;
-                } else {
+                    } else {
                     cart.push({ ...product, quantity: 1 });
-                }
-                product.stock--; // Decrementar stock (si es una laptop física o licencia con stock gestionado)
-                updateCartUI();
-                renderProducts(); // Re-renderizar productos para reflejar cambios de stock
-                renderOffers(); // Re-renderizar ofertas para reflejar cambios de stock
-                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
-                showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
-            }
-        }
+                    }
+                    product.stock--; // Decrementar stock (si es una laptop física o licencia con stock gestionado)
+                    updateCartUI();
+                    renderProducts(); // Re-renderizar productos para reflejar cambios de stock
+                    renderOffers(); // Re-renderizar ofertas para reflejar cambios de stock
+                    renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
+                    showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
+                    }
+                    }
 
-        // Función para eliminar un producto del carrito
-        function removeFromCart(productId) {
-            const productInCart = cart.find(item => item.id === productId);
-            if (productInCart) {
-                const originalProduct = products.find(p => p.id === productId);
-                // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean 'ilimitadas' como 99)
-                if (originalProduct && originalProduct.stock !== 99) { 
+                    // Función para eliminar un producto del carrito
+                    function removeFromCart(productId) {
+                    const productInCart = cart.find(item => item.id === productId);
+                    if (productInCart) {
+                    const originalProduct = products.find(p => p.id === productId);
+                    // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean
+                    'ilimitadas' como 99)
+                    if (originalProduct && originalProduct.stock !== 99) {
                     originalProduct.stock += productInCart.quantity;
-                }
-                cart = cart.filter(item => item.id !== productId);
-                updateCartUI();
-                renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
-                renderOffers();
-                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
-            }
-        }
+                    }
+                    cart = cart.filter(item => item.id !== productId);
+                    updateCartUI();
+                    renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
+                    renderOffers();
+                    renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
+                    }
+                    }
 
 
-        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
-        function attachAddToCartListeners() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
-                button.addEventListener('click', handleAddToCartClick);
-            });
-        }
+                    // Función para adjuntar event listeners a los botones "Agregar al Carrito"
+                    function attachAddToCartListeners() {
+                    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
+                    button.addEventListener('click', handleAddToCartClick);
+                    });
+                    }
 
-        // Handler para el clic en "Agregar al Carrito"
-        function handleAddToCartClick(event) {
-            const productId = parseInt(event.currentTarget.dataset.productId);
-            addToCart(productId);
-        }
+                    // Handler para el clic en "Agregar al Carrito"
+                    function handleAddToCartClick(event) {
+                    const productId = parseInt(event.currentTarget.dataset.productId);
+                    addToCart(productId);
+                    }
 
-        // Función para actualizar la interfaz del carrito
-        function updateCartUI() {
-            const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0); // Corrección aquí
+                    // Función para actualizar la interfaz del carrito
+                    function updateCartUI() {
+                    const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0); // Corrección aquí
 
-            cartCount.textContent = totalItemsInCart;
-            document.getElementById('cart-count-floating').textContent = totalItemsInCart;
+                    cartCount.textContent = totalItemsInCart;
+                    document.getElementById('cart-count-floating').textContent = totalItemsInCart;
 
-            cartItemsList.innerHTML = '';
-            let total = 0;
+                    cartItemsList.innerHTML = '';
+                    let total = 0;
 
-            if (cart.length === 0) {
-                emptyCartMessage.classList.remove('hidden');
-            } else {
-                emptyCartMessage.classList.add('hidden');
-                cart.forEach(item => {
+                    if (cart.length === 0) {
+                    emptyCartMessage.classList.remove('hidden');
+                    } else {
+                    emptyCartMessage.classList.add('hidden');
+                    cart.forEach(item => {
                     const listItem = document.createElement('div');
                     listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
                     listItem.innerHTML = `
-                        <div class="flex items-center">
-                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
-                            <div>
-                                <h4 class="font-montserrat font-semibold">${item.name}</h4>
-                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
-                            </div>
+                    <div class="flex items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                        <div>
+                            <h4 class="font-montserrat font-semibold">${item.name}</h4>
+                            <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
-                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="font-montserrat font-bold text-accent-blue">$${(item.price *
+                            item.quantity).toFixed(2)}</span>
+                        <button data-product-id="${item.id}"
+                            class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                     `;
                     cartItemsList.appendChild(listItem);
                     total += item.price * item.quantity;
-                });
-
-                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const productId = parseInt(event.currentTarget.dataset.productId);
-                        removeFromCart(productId);
                     });
-                });
-            }
-            cartTotal.textContent = `$${total.toFixed(2)}`;
-        }
 
-        // Función para mostrar un mensaje temporal (ej. "Producto agregado")
-        function showTemporaryMessage(message, bgColorClass) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6 py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform translate-y-4`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
+                    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                    const productId = parseInt(event.currentTarget.dataset.productId);
+                    removeFromCart(productId);
+                    });
+                    });
+                    }
+                    cartTotal.textContent = `$${total.toFixed(2)}`;
+                    }
 
-            setTimeout(() => {
-                messageDiv.classList.add('opacity-100', 'translate-y-0');
-            }, 10);
+                    // Función para mostrar un mensaje temporal (ej. "Producto agregado")
+                    function showTemporaryMessage(message, bgColorClass) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6
+                    py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform
+                    translate-y-4`;
+                    messageDiv.textContent = message;
+                    document.body.appendChild(messageDiv);
 
-            setTimeout(() => {
-                messageDiv.classList.remove('opacity-100', 'translate-y-0');
-                messageDiv.classList.add('opacity-0', 'translate-y-4');
-                messageDiv.addEventListener('transitionend', () => messageDiv.remove());
-            }, 3000);
-        }
+                    setTimeout(() => {
+                    messageDiv.classList.add('opacity-100', 'translate-y-0');
+                    }, 10);
 
-        // Abrir/Cerrar Carrito Modal
-        cartIcon.addEventListener('click', () => {
-            cartModalOverlay.classList.add('active');
-        });
-        document.getElementById('floating-cart-btn').addEventListener('click', () => {
-            cartModalOverlay.classList.add('active');
-        });
+                    setTimeout(() => {
+                    messageDiv.classList.remove('opacity-100', 'translate-y-0');
+                    messageDiv.classList.add('opacity-0', 'translate-y-4');
+                    messageDiv.addEventListener('transitionend', () => messageDiv.remove());
+                    }, 3000);
+                    }
 
-        closeCartModalBtn.addEventListener('click', () => {
-            cartModalOverlay.classList.remove('active');
-        });
+                    // Abrir/Cerrar Carrito Modal
+                    cartIcon.addEventListener('click', () => {
+                    cartModalOverlay.classList.add('active');
+                    });
+                    document.getElementById('floating-cart-btn').addEventListener('click', () => {
+                    cartModalOverlay.classList.add('active');
+                    });
 
-        cartModalOverlay.addEventListener('click', (event) => {
-            if (event.target === cartModalOverlay) {
-                cartModalOverlay.classList.remove('active');
-            }
-        });
+                    closeCartModalBtn.addEventListener('click', () => {
+                    cartModalOverlay.classList.remove('active');
+                    });
 
-        // Abrir/Cerrar WhatsApp Modal
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
-                return;
-            }
-            cartModalOverlay.classList.remove('active');
-            whatsappModalOverlay.classList.add('active');
-        });
+                    cartModalOverlay.addEventListener('click', (event) => {
+                    if (event.target === cartModalOverlay) {
+                    cartModalOverlay.classList.remove('active');
+                    }
+                    });
 
-        closeWhatsappModalBtn.addEventListener('click', () => {
-            whatsappModalOverlay.classList.remove('active');
-        });
+                    // Abrir/Cerrar WhatsApp Modal
+                    checkoutBtn.addEventListener('click', () => {
+                    if (cart.length === 0) {
+                    showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
+                    return;
+                    }
+                    cartModalOverlay.classList.remove('active');
+                    whatsappModalOverlay.classList.add('active');
+                    });
 
-        whatsappModalOverlay.addEventListener('click', (event) => {
-            if (event.target === whatsappModalOverlay) {
-                whatsappModalOverlay.classList.remove('active');
-            }
-        });
+                    closeWhatsappModalBtn.addEventListener('click', () => {
+                    whatsappModalOverlay.classList.remove('active');
+                    });
 
-        // Generar enlace de WhatsApp con el pedido
-        sendWhatsappBtn.addEventListener('click', () => {
-            let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
-            cart.forEach(item => {
-                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
-            });
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrección aquí
-            orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
-            orderDetails += "Por favor, contáctenme para concretar la compra.";
+                    whatsappModalOverlay.addEventListener('click', (event) => {
+                    if (event.target === whatsappModalOverlay) {
+                    whatsappModalOverlay.classList.remove('active');
+                    }
+                    });
 
-            const whatsappNumber = "527713951347";
+                    // Generar enlace de WhatsApp con el pedido
+                    sendWhatsappBtn.addEventListener('click', () => {
+                    let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
+                    cart.forEach(item => {
+                    orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price *
+                    item.quantity).toFixed(2)}\n`;
+                    });
+                    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrección aquí
+                    orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
+                    orderDetails += "Por favor, contáctenme para concretar la compra.";
 
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
+                    const whatsappNumber = "527713951347";
 
-            window.open(whatsappLink, '_blank');
-            cart = [];
-            updateCartUI();
-            whatsappModalOverlay.classList.remove('active');
-            showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
-        });
+                    const whatsappLink =
+                    `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
 
-        // Funcionalidad de la barra de búsqueda
-        searchToggle.addEventListener('click', () => {
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('w-full', 'md:w-48');
-                searchInput.focus();
-            } else {
-                searchInput.classList.remove('w-full', 'md:w-48');
-            }
-        });
+                    window.open(whatsappLink, '_blank');
+                    cart = [];
+                    updateCartUI();
+                    whatsappModalOverlay.classList.remove('active');
+                    showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
+                    });
 
-        // Funcionalidad del botón de cotizar reparación
-        document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            const whatsappNumber = "527713951347";
-            const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
-            window.open(whatsappLink, '_blank');
-        });
+                    // Funcionalidad de la barra de búsqueda
+                    searchToggle.addEventListener('click', () => {
+                    searchInput.classList.toggle('hidden');
+                    if (!searchInput.classList.contains('hidden')) {
+                    searchInput.classList.add('w-full', 'md:w-48');
+                    searchInput.focus();
+                    } else {
+                    searchInput.classList.remove('w-full', 'md:w-48');
+                    }
+                    });
 
-        // Funcionalidad para el menú móvil
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+                    // Funcionalidad del botón de cotizar reparación
+                    document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const whatsappNumber = "527713951347";
+                    const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación
+                    de laptop. ¿Podrían darme más información?";
+                    const whatsappLink =
+                    `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+                    window.open(whatsappLink, '_blank');
+                    });
 
-        // Cerrar menú móvil al hacer clic en un enlace
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+                    // Funcionalidad para el menú móvil
+                    mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    });
 
-        // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
+                    // Cerrar menú móvil al hacer clic en un enlace
+                    document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    });
+                    });
 
-        // Abrir/Cerrar Modal de Diagnóstico
-        aiDiagnosisBtn.addEventListener('click', () => {
-            diagnosisModalOverlay.classList.add('active');
-            problemDescriptionTextarea.value = '';
-            diagnosisResultDiv.classList.add('hidden');
-            diagnosisError.classList.add('hidden');
-        });
+                    // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
 
-        closeDiagnosisModalBtn.addEventListener('click', () => {
-            diagnosisModalOverlay.classList.remove('active');
-        });
+                    // Abrir/Cerrar Modal de Diagnóstico
+                    aiDiagnosisBtn.addEventListener('click', () => {
+                    diagnosisModalOverlay.classList.add('active');
+                    problemDescriptionTextarea.value = '';
+                    diagnosisResultDiv.classList.add('hidden');
+                    diagnosisError.classList.add('hidden');
+                    });
 
-        diagnosisModalOverlay.addEventListener('click', (event) => {
-            if (event.target === diagnosisModalOverlay) {
-                diagnosisModalOverlay.classList.remove('active');
-            }
-        });
+                    closeDiagnosisModalBtn.addEventListener('click', () => {
+                    diagnosisModalOverlay.classList.remove('active');
+                    });
 
-        // Obtener Diagnóstico del LLM
-        getDiagnosisBtn.addEventListener('click', async () => {
-            const problemDescription = problemDescriptionTextarea.value.trim();
-            if (!problemDescription) {
-                showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
-                return;
-            }
+                    diagnosisModalOverlay.addEventListener('click', (event) => {
+                    if (event.target === diagnosisModalOverlay) {
+                    diagnosisModalOverlay.classList.remove('active');
+                    }
+                    });
 
-            diagnosisResultDiv.classList.add('hidden');
-            diagnosisError.classList.add('hidden');
-            diagnosisLoader.classList.remove('hidden');
+                    // Obtener Diagnóstico del LLM
+                    getDiagnosisBtn.addEventListener('click', async () => {
+                    const problemDescription = problemDescriptionTextarea.value.trim();
+                    if (!problemDescription) {
+                    showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
+                    return;
+                    }
 
-            try {
-                let chatHistory = [];
-                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil de entender. Descripción del problema: ${problemDescription}`;
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    diagnosisResultDiv.classList.add('hidden');
+                    diagnosisError.classList.add('hidden');
+                    diagnosisLoader.classList.remove('hidden');
 
-                const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44";  // Usa la apiKey de tu configuración de Firebase
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    try {
+                    let chatHistory = [];
+                    const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha
+                    descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico
+                    preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica
+                    cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil
+                    de entender. Descripción del problema: ${problemDescription}`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                const response = await fetch(apiUrl, {
+                    const payload = { contents: chatHistory };
+                    const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de
+                    Firebase
+                    const apiUrl =
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                });
+                    });
 
-                const result = await response.json();
-                let diagnosisOutput = '';
+                    const result = await response.json();
+                    let diagnosisOutput = '';
 
-                if (result.candidates && result.candidates.length > 0 &&
+                    if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     diagnosisOutput = result.candidates[0].content.parts[0].text;
                     diagnosisTextDiv.innerHTML = diagnosisOutput.replace(/\n/g, '<br>');
                     diagnosisResultDiv.classList.remove('hidden');
-                } else {
+                    } else {
                     diagnosisError.classList.remove('hidden');
                     console.error('Estructura de respuesta inesperada del LLM:', result);
                     diagnosisOutput = "No pudimos generar un diagnóstico en este momento.";
                     diagnosisTextDiv.innerHTML = diagnosisOutput;
                     diagnosisResultDiv.classList.remove('hidden');
-                }
-
-                // Guardar la interacción en Firestore
-                if (db) {
-                    try {
-                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
-                            userId: userId,
-                            assistant: 'repair_diagnosis',
-                            input: problemDescription,
-                            output: diagnosisOutput,
-                            timestamp: serverTimestamp()
-                        });
-                        console.log("Repair diagnosis interaction saved to Firestore.");
-                    } catch (dbError) {
-                        console.error("Error saving repair diagnosis to Firestore:", dbError);
                     }
-                }
 
-            } catch (error) {
-                diagnosisError.classList.remove('hidden');
-                console.error('Error al llamar a la API de Gemini:', error);
-                diagnosisTextDiv.innerHTML = "Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.";
-                diagnosisResultDiv.classList.remove('hidden');
-            } finally {
-                diagnosisLoader.classList.add('hidden');
-            }
-        });
+                    // Guardar la interacción en Firestore
+                    if (db) {
+                    try {
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+                    userId: userId,
+                    assistant: 'repair_diagnosis',
+                    input: problemDescription,
+                    output: diagnosisOutput,
+                    timestamp: serverTimestamp()
+                    });
+                    console.log("Repair diagnosis interaction saved to Firestore.");
+                    } catch (dbError) {
+                    console.error("Error saving repair diagnosis to Firestore:", dbError);
+                    }
+                    }
 
-        // --- Funcionalidad de la galería de imágenes en el modal de zoom ---
+                    } catch (error) {
+                    diagnosisError.classList.remove('hidden');
+                    console.error('Error al llamar a la API de Gemini:', error);
+                    diagnosisTextDiv.innerHTML = "Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.";
+                    diagnosisResultDiv.classList.remove('hidden');
+                    } finally {
+                    diagnosisLoader.classList.add('hidden');
+                    }
+                    });
 
-        // Función para actualizar la imagen del modal y los indicadores
-        function updateModalImageAndIndicators() {
-            modalImage.src = currentProductImageUrls[currentImageCarouselIndex];
+                    // --- Funcionalidad de la galería de imágenes en el modal de zoom ---
 
-            // Ocultar/mostrar flechas si solo hay una imagen
-            if (currentProductImageUrls.length <= 1) {
-                modalPrevBtn.classList.add('hidden');
-                modalNextBtn.classList.add('hidden');
-                modalImageIndicators.classList.add('hidden');
-            } else {
-                modalPrevBtn.classList.remove('hidden');
-                modalNextBtn.classList.remove('hidden');
-                modalImageIndicators.classList.remove('hidden');
-            }
+                    // Función para actualizar la imagen del modal y los indicadores
+                    function updateModalImageAndIndicators() {
+                    modalImage.src = currentProductImageUrls[currentImageCarouselIndex];
 
-            modalImageIndicators.innerHTML = ''; // Limpiar indicadores existentes
-            currentProductImageUrls.forEach((_, index) => {
-                const dot = document.createElement('span');
-                dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1 transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
-                dot.addEventListener('click', () => {
-                    currentImageCarouselIndex = index;
-                    updateModalImageAndIndicators();
-                });
-                modalImageIndicators.appendChild(dot);
-            });
-        }
+                    // Ocultar/mostrar flechas si solo hay una imagen
+                    if (currentProductImageUrls.length <= 1) { modalPrevBtn.classList.add('hidden');
+                        modalNextBtn.classList.add('hidden'); modalImageIndicators.classList.add('hidden'); } else {
+                        modalPrevBtn.classList.remove('hidden'); modalNextBtn.classList.remove('hidden');
+                        modalImageIndicators.classList.remove('hidden'); } modalImageIndicators.innerHTML='' ; //
+                        Limpiar indicadores existentes currentProductImageUrls.forEach((_, index)=> {
+                        const dot = document.createElement('span');
+                        dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1
+                        transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
+                        dot.addEventListener('click', () => {
+                        currentImageCarouselIndex = index;
+                        updateModalImageAndIndicators();
+                        });
+                        modalImageIndicators.appendChild(dot);
+                        });
+                        }
 
-        // Event listener para abrir el modal de imagen
-        function attachImageClickListeners() {
-            document.querySelectorAll('.product-card img').forEach(img => {
-                img.addEventListener('click', (event) => {
-                    const productId = parseInt(event.target.dataset.productId);
-                    const product = products.find(p => p.id === productId);
+                        // Event listener para abrir el modal de imagen
+                        function attachImageClickListeners() {
+                        document.querySelectorAll('.product-card img').forEach(img => {
+                        img.addEventListener('click', (event) => {
+                        const productId = parseInt(event.target.dataset.productId);
+                        const product = products.find(p => p.id === productId);
 
-                    if (product && product.images && product.images.length > 0) {
+                        if (product && product.images && product.images.length > 0) {
                         currentProductImageUrls = product.images;
                         currentImageCarouselIndex = 0; // Siempre empezar por la primera imagen al abrir
                         updateModalImageAndIndicators();
-                    } else {
+                        } else {
                         // Fallback si no hay array de imágenes o está vacío
                         modalImage.src = event.target.src;
                         currentProductImageUrls = [event.target.src]; // Solo una imagen
                         currentImageCarouselIndex = 0;
                         updateModalImageAndIndicators(); // Para ocultar nav/indicadores
-                    }
+                        }
 
-                    if (product) {
+                        if (product) {
                         modalProductName.textContent = product.name;
                         modalProductDescription.innerHTML = product.description.replace(/<br>/g, '<br>');
-                    } else {
+                        } else {
                         modalProductName.textContent = '';
                         modalProductDescription.textContent = '';
-                    }
+                        }
 
-                    imageModalOverlay.classList.add('active');
-                });
-            });
-        }
+                        imageModalOverlay.classList.add('active');
+                        });
+                        });
+                        }
 
-        // Navegación del carrusel: Botón Anterior
-        modalPrevBtn.addEventListener('click', () => {
-            currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) % currentProductImageUrls.length;
-            updateModalImageAndIndicators();
-        });
+                        // Navegación del carrusel: Botón Anterior
+                        modalPrevBtn.addEventListener('click', () => {
+                        currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) %
+                        currentProductImageUrls.length;
+                        updateModalImageAndIndicators();
+                        });
 
-        // Navegación del carrusel: Botón Siguiente
-        modalNextBtn.addEventListener('click', () => {
-            currentImageCarouselIndex = (currentImageCarouselIndex + 1) % currentProductImageUrls.length;
-            updateModalImageAndIndicators();
-        });
+                        // Navegación del carrusel: Botón Siguiente
+                        modalNextBtn.addEventListener('click', () => {
+                        currentImageCarouselIndex = (currentImageCarouselIndex + 1) % currentProductImageUrls.length;
+                        updateModalImageAndIndicators();
+                        });
 
-        // Cerrar modal de imagen
-        closeModalImageBtn.addEventListener('click', () => {
-            imageModalOverlay.classList.remove('active');
-        });
+                        // Cerrar modal de imagen
+                        closeModalImageBtn.addEventListener('click', () => {
+                        imageModalOverlay.classList.remove('active');
+                        });
 
-        // Cerrar modal al hacer clic fuera del contenido
-        imageModalOverlay.addEventListener('click', (event) => {
-            if (event.target === imageModalOverlay) {
-                imageModalOverlay.classList.remove('active');
-            }
-        });
+                        // Cerrar modal al hacer clic fuera del contenido
+                        imageModalOverlay.addEventListener('click', (event) => {
+                        if (event.target === imageModalOverlay) {
+                        imageModalOverlay.classList.remove('active');
+                        }
+                        });
 
-    </script>
+                        </script>
 </body>
+
 </html>
