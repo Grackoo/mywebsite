@@ -30,28 +30,23 @@ const productModal = document.getElementById('product-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const productForm = document.getElementById('product-form');
 const migrateBtn = document.getElementById('migrate-btn');
-const toggleAuthModeBtn = document.getElementById('toggle-auth-mode');
 const submitBtnText = document.getElementById('submit-btn-text');
 
-let isLoginMode = true;
+// let isLoginMode = true; // No longer needed
 
 // --- AUTHENTICATION ---
 
-toggleAuthModeBtn.addEventListener('click', () => {
-    isLoginMode = !isLoginMode;
-    if (isLoginMode) {
-        document.querySelector('#login-section h2').textContent = "Iniciar Sesión";
-        submitBtnText.textContent = "Entrar";
-        toggleAuthModeBtn.innerHTML = '¿No tienes cuenta? <span class="text-accent-blue font-bold">Regístrate</span>';
-    } else {
-        document.querySelector('#login-section h2').textContent = "Registrar Administrador";
-        submitBtnText.textContent = "Registrarse";
-        toggleAuthModeBtn.innerHTML = '¿Ya tienes cuenta? <span class="text-accent-blue font-bold">Inicia Sesión</span>';
-    }
-});
+// Removed Toggle Logic - Single User Mode
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
+        if (user.email !== 'jonnathanjosue@outlook.com') {
+            console.warn("Usuario no autorizado intentó acceder.");
+            signOut(auth);
+            loginError.textContent = "Acceso Denegado: Usuario no autorizado.";
+            loginError.classList.remove('hidden');
+            return;
+        }
         loginSection.classList.add('hidden');
         dashboardSection.classList.remove('hidden');
         logoutBtn.classList.remove('hidden');
@@ -65,20 +60,42 @@ onAuthStateChanged(auth, (user) => {
 
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
+    const allowedEmail = 'jonnathanjosue@outlook.com';
+
+    if (email.toLowerCase() !== allowedEmail) {
+        loginError.textContent = "Error: Este correo no tiene permisos de administrador.";
+        loginError.classList.remove('hidden');
+        return;
+    }
 
     try {
-        if (isLoginMode) {
-            await signInWithEmailAndPassword(auth, email, password);
-        } else {
-            await createUserWithEmailAndPassword(auth, email, password);
-        }
+        await signInWithEmailAndPassword(auth, email, password);
         loginError.classList.add('hidden');
     } catch (error) {
-        console.error("Auth failed", error);
-        loginError.textContent = "Error: " + error.message;
-        loginError.classList.remove('hidden');
+        console.error("Login failed", error);
+
+        // Auto-provisioning for the specific admin user if they don't exist
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+            try {
+                // Attempt to create the user only if it's the allowed email
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Usuario Administrador creado y autenticado correctamente.");
+                loginError.classList.add('hidden');
+            } catch (createError) {
+                // If creation fails (e.g. wrong password for existing user, though 'invalid-credential' usually covers that), show error
+                if (createError.code === 'auth/email-already-in-use') {
+                    loginError.textContent = "Error: La contraseña es incorrecta.";
+                } else {
+                    loginError.textContent = "Error: " + createError.message;
+                }
+                loginError.classList.remove('hidden');
+            }
+        } else {
+            loginError.textContent = "Error: " + error.message;
+            loginError.classList.remove('hidden');
+        }
     }
 });
 
