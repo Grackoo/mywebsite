@@ -683,280 +683,285 @@
         </div>
     </div>
 
-    import { init3DHero } from './3d-hero.js';
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from
-    "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, getDocs } from
-    "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script type="module">
+        import { init3DHero } from './3d-hero.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from
+            "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, getDocs } from
+            "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Inicialización de Firebase
-    const firebaseConfig = {
-    apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
-    authDomain: "siatec-a88de.firebaseapp.com",
-    projectId: "siatec-a88de",
-    storageBucket: "siatec-a88de.firebasestorage.app",
-    messagingSenderId: "558101434635",
-    appId: "1:558101434635:web:38347725aa168e7587520e",
-    measurementId: "G-ZZ274STXJ7"
-    };
-    const appId = "1:558101434635:web:38347725aa168e7587520e";
+        // Inicialización de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
+            authDomain: "siatec-a88de.firebaseapp.com",
+            projectId: "siatec-a88de",
+            storageBucket: "siatec-a88de.firebasestorage.app",
+            messagingSenderId: "558101434635",
+            appId: "1:558101434635:web:38347725aa168e7587520e",
+            measurementId: "G-ZZ274STXJ7"
+        };
+        const appId = "1:558101434635:web:38347725aa168e7587520e";
 
-    let app;
-    let db;
-    let auth;
-    let userId;
+        let app;
+        let db;
+        let auth;
+        let userId;
 
-    // Array para almacenar los productos (ahora dinámico)
-    let products = [];
-    let cart = [];
+        // Array para almacenar los productos (ahora dinámico)
+        let products = [];
+        let cart = [];
 
-    // Inicializar Firebase y Componentes
-    document.addEventListener('DOMContentLoaded', async () => {
-    app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    auth = getAuth(app);
+        // Inicializar Firebase y Componentes
+        document.addEventListener('DOMContentLoaded', async () => {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
 
-    // Iniciar 3D Hero
-    init3DHero('hero-3d-container');
+            // Iniciar 3D Hero
+            init3DHero('hero-3d-container');
 
-    // Autenticar al usuario
-    try {
-    await signInAnonymously(auth);
-    userId = auth.currentUser?.uid;
-    } catch (error) {
-    console.error("Error Auth:", error);
-    userId = crypto.randomUUID();
-    }
+            // Autenticar al usuario
+            try {
+                await signInAnonymously(auth);
+                userId = auth.currentUser?.uid;
+            } catch (error) {
+                console.error("Error Auth:", error);
+                userId = crypto.randomUUID();
+            }
 
-    // Cargar productos de Firestore
-    await fetchProducts();
-    });
-
-    async function fetchProducts() {
-    try {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    products = [];
-    querySnapshot.forEach((doc) => {
-    // Adaptar datos de Firestore al formato que espera la UI
-    const data = doc.data();
-    products.push({
-    id: doc.id,
-    ...data,
-    // Asegurar compatibilidad si faltan campos
-    description: data.description || '',
-    images: data.images || [data.image],
-    discountPercentage: data.discountPercentage || '10%'
-    });
-    });
-
-    renderOffers();
-    renderProducts();
-    renderLicenses();
-    updateCartUI();
-
-    console.log("Productos cargados:", products.length);
-    } catch (e) {
-    console.error("Error al cargar productos:", e);
-    // Fallback UI si falla
-    productGrid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error de conexión. No se pudieron cargar
-        los productos.</p>';
-    }
-    }
-
-    const cartIcon = document.getElementById('cart-icon');
-    const cartCount = document.getElementById('cart-count');
-    const cartModalOverlay = document.getElementById('cart-modal-overlay');
-    const closeCartModalBtn = document.getElementById('close-cart-modal');
-    const cartItemsList = document.getElementById('cart-items-list');
-    const cartTotal = document.getElementById('cart-total');
-    const checkoutBtn = document.getElementById('checkout-btn');
-    const emptyCartMessage = document.getElementById('empty-cart-message');
-
-    const whatsappModalOverlay = document.getElementById('whatsapp-modal-overlay');
-    const closeWhatsappModalBtn = document.getElementById('close-whatsapp-modal');
-    const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
-
-    const searchToggle = document.getElementById('search-toggle');
-    const searchInput = document.getElementById('search-input');
-
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    // Referencias para el Asistente de Diagnóstico
-    const aiDiagnosisBtn = document.getElementById('ai-diagnosis-btn');
-    const diagnosisModalOverlay = document.getElementById('diagnosis-modal-overlay');
-    const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
-    const problemDescriptionTextarea = document.getElementById('problem-description');
-    const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
-    const diagnosisResultDiv = document.getElementById('diagnosis-result');
-    const diagnosisTextDiv = document.getElementById('diagnosis-text');
-    const diagnosisLoader = document.getElementById('diagnosis-loader');
-    const diagnosisError = document.getElementById('diagnosis-error');
-
-    // Referencias para el modal de imagen (incluyendo los nuevos elementos para la galería)
-    const imageModalOverlay = document.getElementById('image-modal-overlay');
-    const closeModalImageBtn = document.getElementById('close-image-modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalProductName = document.getElementById('modal-product-name');
-    const modalProductDescription = document.getElementById('modal-product-description');
-    const modalPrevBtn = document.getElementById('modal-prev-btn'); // Nuevo
-    const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
-    const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
-
-    // Get references for the new laptop assistant modal elements
-    const laptopAssistantBtn = document.getElementById('laptop-assistant-btn');
-    const laptopAssistantModalOverlay = document.getElementById('laptop-assistant-modal-overlay');
-    const closeLaptopAssistantModalBtn = document.getElementById('close-laptop-assistant-modal');
-    const professionInput = document.getElementById('profession-input');
-    const programsInput = document.getElementById('programs-input');
-    const budgetInput = document.getElementById('budget-input');
-    const getLaptopRecommendationBtn = document.getElementById('get-laptop-recommendation-btn');
-    const laptopRecommendationResult = document.getElementById('laptop-recommendation-result');
-    const recommendationText = document.getElementById('recommendation-text');
-    const laptopRecommendationLoader = document.getElementById('laptop-recommendation-loader');
-    const laptopRecommendationError = document.getElementById('laptop-recommendation-error');
-
-    // Function to open the laptop assistant modal
-    function openLaptopAssistantModal() {
-    laptopAssistantModalOverlay.classList.add('active');
-    // Clear previous results and inputs
-    professionInput.value = '';
-    programsInput.value = '';
-    budgetInput.value = '';
-    recommendationText.innerHTML = '';
-    laptopRecommendationResult.classList.add('hidden');
-    laptopRecommendationLoader.classList.add('hidden');
-    laptopRecommendationError.classList.add('hidden');
-    }
-    // Function to close the laptop assistant modal
-    function closeLaptopAssistantModal() {
-    laptopAssistantModalOverlay.classList.remove('active');
-    }
-
-    // Event listeners for the laptop assistant modal
-    laptopAssistantBtn.addEventListener('click', openLaptopAssistantModal);
-    closeLaptopAssistantModalBtn.addEventListener('click', closeLaptopAssistantModal);
-    laptopAssistantModalOverlay.addEventListener('click', (e) => {
-    if (e.target === laptopAssistantModalOverlay) {
-    closeLaptopAssistantModal();
-    }
-    });
-
-    // --- NEW: Laptop Recommendation Logic with Gemini API ---
-    getLaptopRecommendationBtn.addEventListener('click', async () => {
-    const profession = professionInput.value.trim();
-    const programs = programsInput.value.trim();
-    const budget = budgetInput.value.trim();
-
-    if (!profession || !programs || !budget) {
-    showTemporaryMessage('Por favor, completa todos los campos para la recomendación.', 'bg-red-500');
-    return;
-    }
-
-    // Show loader, hide previous results/errors
-    laptopRecommendationLoader.classList.remove('hidden');
-    laptopRecommendationResult.classList.add('hidden');
-    laptopRecommendationError.classList.add('hidden');
-    recommendationText.innerHTML = '';
-
-    try {
-    let chatHistory = [];
-    // Construct the prompt for Gemini, including the full products catalog
-    const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más
-    adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
-
-    **Información del Cliente:**
-    - Profesión: ${profession}
-    - Programas/Software: ${programs}
-    - Presupuesto: ${budget} MXN
-
-    **Catálogo de Laptops de SIA TEC (en formato JSON):**
-    ${JSON.stringify(products.filter(p => p.id < 100), null, 2)} Por favor, analiza el catálogo y la información del
-        cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus
-        especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con
-        todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué. Al final de tu
-        recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase
-        exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
-        `; chatHistory.push({ role: "user" , parts: [{ text: prompt }] }); const payload={ contents: chatHistory };
-        const apiKey="AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44" ; // Usa la apiKey de tu configuración de Firebase const
-        apiUrl=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        const response=await fetch(apiUrl, { method: 'POST' , headers: { 'Content-Type' : 'application/json' }, body:
-        JSON.stringify(payload) }); const result=await response.json(); let recommendationOutput='' ; if
-        (result.candidates && result.candidates.length> 0 &&
-        result.candidates[0].content && result.candidates[0].content.parts &&
-        result.candidates[0].content.parts.length > 0) {
-        recommendationOutput = result.candidates[0].content.parts[0].text;
-        recommendationText.innerHTML = recommendationOutput.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
-        laptopRecommendationResult.classList.remove('hidden');
-        } else {
-        laptopRecommendationError.classList.remove('hidden');
-        console.error('Estructura de respuesta inesperada del LLM:', result);
-        recommendationOutput = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas
-        una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por
-        WhatsApp o llamarnos al +52 77 1395 1347.";
-        recommendationText.innerHTML = recommendationOutput;
-        laptopRecommendationResult.classList.remove('hidden');
-        }
-
-        // Guardar la interacción en Firestore
-        if (db) {
-        try {
-        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
-        userId: userId,
-        assistant: 'laptop_recommendation',
-        input: {
-        profession: profession,
-        programs: programs,
-        budget: budget
-        },
-        output: recommendationOutput,
-        timestamp: serverTimestamp()
+            // Cargar productos de Firestore
+            await fetchProducts();
         });
-        console.log("Laptop recommendation interaction saved to Firestore.");
-        } catch (dbError) {
-        console.error("Error saving laptop recommendation to Firestore:", dbError);
-        }
+
+        async function fetchProducts() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "products"));
+                products = [];
+                querySnapshot.forEach((doc) => {
+                    // Adaptar datos de Firestore al formato que espera la UI
+                    const data = doc.data();
+                    products.push({
+                        id: doc.id,
+                        ...data,
+                        // Asegurar compatibilidad si faltan campos
+                        description: data.description || '',
+                        images: data.images || [data.image],
+                        discountPercentage: data.discountPercentage || '10%'
+                    });
+                });
+
+                renderOffers();
+                renderProducts();
+                renderLicenses();
+                updateCartUI();
+
+                console.log("Productos cargados:", products.length);
+            } catch (e) {
+                console.error("Error al cargar productos:", e);
+                // Fallback UI si falla
+                productGrid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error de conexión. No se pudieron cargar los productos.</p>';
+            }
         }
 
-        } catch (error) {
-        laptopRecommendationError.classList.remove('hidden');
-        console.error('Error al llamar a la API de Gemini para la recomendación:', error);
-        recommendationText.innerHTML = "Ocurrió un error al obtener la recomendación. Si aún no estás seguro o necesitas
-        una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por
-        WhatsApp o llamarnos al +52 77 1395 1347.";
-        laptopRecommendationResult.classList.remove('hidden');
-        } finally {
-        laptopRecommendationLoader.classList.add('hidden');
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartModalOverlay = document.getElementById('cart-modal-overlay');
+        const closeCartModalBtn = document.getElementById('close-cart-modal');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+
+        const whatsappModalOverlay = document.getElementById('whatsapp-modal-overlay');
+        const closeWhatsappModalBtn = document.getElementById('close-whatsapp-modal');
+        const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
+
+        const searchToggle = document.getElementById('search-toggle');
+        const searchInput = document.getElementById('search-input');
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Referencias para el Asistente de Diagnóstico
+        const aiDiagnosisBtn = document.getElementById('ai-diagnosis-btn');
+        const diagnosisModalOverlay = document.getElementById('diagnosis-modal-overlay');
+        const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
+        const problemDescriptionTextarea = document.getElementById('problem-description');
+        const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
+        const diagnosisResultDiv = document.getElementById('diagnosis-result');
+        const diagnosisTextDiv = document.getElementById('diagnosis-text');
+        const diagnosisLoader = document.getElementById('diagnosis-loader');
+        const diagnosisError = document.getElementById('diagnosis-error');
+
+        // Referencias para el modal de imagen (incluyendo los nuevos elementos para la galería)
+        const imageModalOverlay = document.getElementById('image-modal-overlay');
+        const closeModalImageBtn = document.getElementById('close-image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalPrevBtn = document.getElementById('modal-prev-btn'); // Nuevo
+        const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
+        const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
+
+        // Get references for the new laptop assistant modal elements
+        const laptopAssistantBtn = document.getElementById('laptop-assistant-btn');
+        const laptopAssistantModalOverlay = document.getElementById('laptop-assistant-modal-overlay');
+        const closeLaptopAssistantModalBtn = document.getElementById('close-laptop-assistant-modal');
+        const professionInput = document.getElementById('profession-input');
+        const programsInput = document.getElementById('programs-input');
+        const budgetInput = document.getElementById('budget-input');
+        const getLaptopRecommendationBtn = document.getElementById('get-laptop-recommendation-btn');
+        const laptopRecommendationResult = document.getElementById('laptop-recommendation-result');
+        const recommendationText = document.getElementById('recommendation-text');
+        const laptopRecommendationLoader = document.getElementById('laptop-recommendation-loader');
+        const laptopRecommendationError = document.getElementById('laptop-recommendation-error');
+
+        // Function to open the laptop assistant modal
+        function openLaptopAssistantModal() {
+            laptopAssistantModalOverlay.classList.add('active');
+            // Clear previous results and inputs
+            professionInput.value = '';
+            programsInput.value = '';
+            budgetInput.value = '';
+            recommendationText.innerHTML = '';
+            laptopRecommendationResult.classList.add('hidden');
+            laptopRecommendationLoader.classList.add('hidden');
+            laptopRecommendationError.classList.add('hidden');
         }
+        // Function to close the laptop assistant modal
+        function closeLaptopAssistantModal() {
+            laptopAssistantModalOverlay.classList.remove('active');
+        }
+
+        // Event listeners for the laptop assistant modal
+        laptopAssistantBtn.addEventListener('click', openLaptopAssistantModal);
+        closeLaptopAssistantModalBtn.addEventListener('click', closeLaptopAssistantModal);
+        laptopAssistantModalOverlay.addEventListener('click', (e) => {
+            if (e.target === laptopAssistantModalOverlay) {
+                closeLaptopAssistantModal();
+            }
+        });
+
+        // --- NEW: Laptop Recommendation Logic with Gemini API ---
+        getLaptopRecommendationBtn.addEventListener('click', async () => {
+            const profession = professionInput.value.trim();
+            const programs = programsInput.value.trim();
+            const budget = budgetInput.value.trim();
+
+            if (!profession || !programs || !budget) {
+                showTemporaryMessage('Por favor, completa todos los campos para la recomendación.', 'bg-red-500');
+                return;
+            }
+
+            // Show loader, hide previous results/errors
+            laptopRecommendationLoader.classList.remove('hidden');
+            laptopRecommendationResult.classList.add('hidden');
+            laptopRecommendationError.classList.add('hidden');
+            recommendationText.innerHTML = '';
+
+
+            try {
+                let chatHistory = [];
+                // Construct the prompt for Gemini, including the full products catalog
+                const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
+
+**Información del Cliente:**
+- Profesión: ${profession}
+- Programas/Software: ${programs}
+- Presupuesto: ${budget} MXN
+
+**Catálogo de Laptops de SIA TEC (en formato JSON):**
+${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
+
+Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
+
+Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."`;
+
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de Firebase
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                let recommendationOutput = '';
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    recommendationOutput = result.candidates[0].content.parts[0].text;
+                    recommendationText.innerHTML = recommendationOutput.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
+                    laptopRecommendationResult.classList.remove('hidden');
+                } else {
+                    laptopRecommendationError.classList.remove('hidden');
+                    console.error('Estructura de respuesta inesperada del LLM:', result);
+                    recommendationOutput = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                    recommendationText.innerHTML = recommendationOutput;
+                    laptopRecommendationResult.classList.remove('hidden');
+                }
+
+                // Guardar la interacción en Firestore
+                if (db) {
+                    try {
+                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+                            userId: userId,
+                            assistant: 'laptop_recommendation',
+                            input: {
+                                profession: profession,
+                                programs: programs,
+                                budget: budget
+                            },
+                            output: recommendationOutput,
+                            timestamp: serverTimestamp()
+                        });
+                        console.log("Laptop recommendation interaction saved to Firestore.");
+                    } catch (dbError) {
+                        console.error("Error saving laptop recommendation to Firestore:", dbError);
+                    }
+                }
+
+            } catch (error) {
+                laptopRecommendationError.classList.remove('hidden');
+                console.error('Error al llamar a la API de Gemini para la recomendación:', error);
+                recommendationText.innerHTML = "Ocurrió un error al obtener la recomendación. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                laptopRecommendationResult.classList.remove('hidden');
+            } finally {
+                laptopRecommendationLoader.classList.add('hidden');
+            }
         });
         // --- END NEW: Laptop Recommendation Logic ---
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card bg-base-card p-6 rounded-xl shadow-md flex flex-col justify-between
-        transform transition-all duration-300 ease-in-out hover:scale-105 relative border border-gray-800';
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card bg-base-card p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative border border-gray-800';
 
-        let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price ?
-            product.price.toFixed(2) : '0.00'}</span>`;
-        let offerBadge = '';
+            let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price ?
+                product.price.toFixed(2) : '0.00'}</span>`;
+            let offerBadge = '';
 
-        if (product.isOnOffer) {
-        priceHtml = `
+            if (product.isOnOffer) {
+                priceHtml = `
         <span class="original-price text-sm text-gray-500 mr-1">$${product.originalPrice ?
-            product.originalPrice.toFixed(2) : ''}</span> <span
+                        product.originalPrice.toFixed(2) : ''}</span> <span
             class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
         `;
-        offerBadge = `<span class="offer-badge">¡${product.discountPercentage || 'OFERTA'} OFF!</span>`;
-        }
+                offerBadge = `<span class="offer-badge">¡${product.discountPercentage || 'OFERTA'} OFF!</span>`;
+            }
 
-        const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
-        const stockColor = product.stock > 0 ? 'text-gray-400' : 'text-red-500 font-semibold';
-        const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
-        const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
+            const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
+            const stockColor = product.stock > 0 ? 'text-gray-400' : 'text-red-500 font-semibold';
+            const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
+            const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
 
-        productCard.innerHTML = `
+            productCard.innerHTML = `
         ${offerBadge}
         <div class="relative w-full mb-4">
             <img src="${product.image}" alt="${product.name}"
@@ -972,107 +977,110 @@
         <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
         <div class="flex justify-center mt-auto"> <button data-product-id="${product.id}"
                 class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}"
-                ${product.stock===0 ? 'disabled' : '' }>
+                ${product.stock === 0 ? 'disabled' : ''}>
                 ${buttonText}
             </button>
         </div>
         `;
-        return productCard;
+            return productCard;
         }
 
         // Función para renderizar los productos en la sección principal
         function renderProducts() {
-        productGrid.innerHTML = '';
-        products.filter(p => !p.isOnOffer && p.id < 100).forEach(product=> { // Mostrar solo laptops (id < 100) y que NO
-                están en oferta aquí productGrid.appendChild(createProductCard(product)); });
-                attachAddToCartListeners(); attachImageClickListeners(); } // Función para renderizar los productos en
-                oferta function renderOffers() { offersGrid.innerHTML='' ; products.filter(p=>
+            productGrid.innerHTML = '';
+            products.filter(p => !p.isOnOffer && p.id < 100).forEach(product => { // Mostrar solo laptops (id < 100) y que NO
+                están en oferta aquí productGrid.appendChild(createProductCard(product));
+            });
+            attachAddToCartListeners(); attachImageClickListeners();
+        } // Función para renderizar los productos en
+                oferta function renderOffers() {
+            offersGrid.innerHTML = ''; products.filter(p =>
                 p.isOnOffer).forEach(product => {
-                offersGrid.appendChild(createProductCard(product));
+                    offersGrid.appendChild(createProductCard(product));
                 });
-                attachAddToCartListeners();
-                attachImageClickListeners();
-                }
+            attachAddToCartListeners();
+            attachImageClickListeners();
+        }
 
-                // NUEVA Función para renderizar los productos de licencias
-                function renderLicenses() {
-                licensesGrid.innerHTML = '';
-                products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100
+        // NUEVA Función para renderizar los productos de licencias
+        function renderLicenses() {
+            licensesGrid.innerHTML = '';
+            products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100
                 (licencias)
                 licensesGrid.appendChild(createProductCard(product));
-                });
-                attachAddToCartListeners();
-                attachImageClickListeners();
-                }
+            });
+            attachAddToCartListeners();
+            attachImageClickListeners();
+        }
 
-                // Función para añadir un producto al carrito
-                function addToCart(productId) {
-                const product = products.find(p => p.id === productId);
-                if (product) {
-                if (product.stock <= 0) { showTemporaryMessage('¡Producto agotado!', 'bg-red-500' ); return; } const
-                    existingItem=cart.find(item=> item.id === productId);
-                    if (existingItem) {
+        // Función para añadir un producto al carrito
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                if (product.stock <= 0) { showTemporaryMessage('¡Producto agotado!', 'bg-red-500'); return; } const
+                    existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
                     existingItem.quantity++;
-                    } else {
+                } else {
                     cart.push({ ...product, quantity: 1 });
-                    }
-                    product.stock--; // Decrementar stock (si es una laptop física o licencia con stock gestionado)
-                    updateCartUI();
-                    renderProducts(); // Re-renderizar productos para reflejar cambios de stock
-                    renderOffers(); // Re-renderizar ofertas para reflejar cambios de stock
-                    renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
-                    showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
-                    }
-                    }
+                }
+                product.stock--; // Decrementar stock (si es una laptop física o licencia con stock gestionado)
+                updateCartUI();
+                renderProducts(); // Re-renderizar productos para reflejar cambios de stock
+                renderOffers(); // Re-renderizar ofertas para reflejar cambios de stock
+                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
+                showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
+            }
+        }
 
-                    // Función para eliminar un producto del carrito
-                    function removeFromCart(productId) {
-                    const productInCart = cart.find(item => item.id === productId);
-                    if (productInCart) {
-                    const originalProduct = products.find(p => p.id === productId);
-                    // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean
-                    'ilimitadas' como 99)
-                    if (originalProduct && originalProduct.stock !== 99) {
+        // Función para eliminar un producto del carrito
+        function removeFromCart(productId) {
+            const productInCart = cart.find(item => item.id === productId);
+            if (productInCart) {
+                const originalProduct = products.find(p => p.id === productId);
+                // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean
+                'ilimitadas' como 99)
+                if (originalProduct && originalProduct.stock !== 99) {
                     originalProduct.stock += productInCart.quantity;
-                    }
-                    cart = cart.filter(item => item.id !== productId);
-                    updateCartUI();
-                    renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
-                    renderOffers();
-                    renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
-                    }
-                    }
+                }
+                cart = cart.filter(item => item.id !== productId);
+                updateCartUI();
+                renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
+                renderOffers();
+                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
+            }
+        }
 
 
-                    // Función para adjuntar event listeners a los botones "Agregar al Carrito"
-                    function attachAddToCartListeners() {
-                    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                    button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
-                    button.addEventListener('click', handleAddToCartClick);
-                    });
-                    }
+        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
+        function attachAddToCartListeners() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
+                button.addEventListener('click', handleAddToCartClick);
+            });
+        }
 
-                    // Handler para el clic en "Agregar al Carrito"
-                    function handleAddToCartClick(event) {
-                    const productId = parseInt(event.currentTarget.dataset.productId);
-                    addToCart(productId);
-                    }
+        // Handler para el clic en "Agregar al Carrito"
+        function handleAddToCartClick(event) {
+            const productId = parseInt(event.currentTarget.dataset.productId);
+            addToCart(productId);
+        }
 
-                    // Función para actualizar la interfaz del carrito
-                    function updateCartUI() {
-                    const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0); // Corrección aquí
+        // Función para actualizar la interfaz del carrito
+        function updateCartUI() {
+            const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0); // Corrección aquí
 
-                    cartCount.textContent = totalItemsInCart;
-                    document.getElementById('cart-count-floating').textContent = totalItemsInCart;
+            cartCount.textContent = totalItemsInCart;
+            document.getElementById('cart-count-floating').textContent = totalItemsInCart;
 
-                    cartItemsList.innerHTML = '';
-                    let total = 0;
+            cartItemsList.innerHTML = '';
+            let total = 0;
 
-                    if (cart.length === 0) {
-                    emptyCartMessage.classList.remove('hidden');
-                    } else {
-                    emptyCartMessage.classList.add('hidden');
-                    cart.forEach(item => {
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cart.forEach(item => {
                     const listItem = document.createElement('div');
                     listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
                     listItem.innerHTML = `
@@ -1094,310 +1102,309 @@
                     `;
                     cartItemsList.appendChild(listItem);
                     total += item.price * item.quantity;
-                    });
+                });
 
-                    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
                     button.addEventListener('click', (event) => {
-                    const productId = parseInt(event.currentTarget.dataset.productId);
-                    removeFromCart(productId);
+                        const productId = parseInt(event.currentTarget.dataset.productId);
+                        removeFromCart(productId);
                     });
-                    });
-                    }
-                    cartTotal.textContent = `$${total.toFixed(2)}`;
-                    }
+                });
+            }
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+        }
 
-                    // Función para mostrar un mensaje temporal (ej. "Producto agregado")
-                    function showTemporaryMessage(message, bgColorClass) {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6
+        // Función para mostrar un mensaje temporal (ej. "Producto agregado")
+        function showTemporaryMessage(message, bgColorClass) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6
                     py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform
                     translate-y-4`;
-                    messageDiv.textContent = message;
-                    document.body.appendChild(messageDiv);
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
 
-                    setTimeout(() => {
-                    messageDiv.classList.add('opacity-100', 'translate-y-0');
-                    }, 10);
+            setTimeout(() => {
+                messageDiv.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
 
-                    setTimeout(() => {
-                    messageDiv.classList.remove('opacity-100', 'translate-y-0');
-                    messageDiv.classList.add('opacity-0', 'translate-y-4');
-                    messageDiv.addEventListener('transitionend', () => messageDiv.remove());
-                    }, 3000);
-                    }
+            setTimeout(() => {
+                messageDiv.classList.remove('opacity-100', 'translate-y-0');
+                messageDiv.classList.add('opacity-0', 'translate-y-4');
+                messageDiv.addEventListener('transitionend', () => messageDiv.remove());
+            }, 3000);
+        }
 
-                    // Abrir/Cerrar Carrito Modal
-                    cartIcon.addEventListener('click', () => {
-                    cartModalOverlay.classList.add('active');
-                    });
-                    document.getElementById('floating-cart-btn').addEventListener('click', () => {
-                    cartModalOverlay.classList.add('active');
-                    });
+        // Abrir/Cerrar Carrito Modal
+        cartIcon.addEventListener('click', () => {
+            cartModalOverlay.classList.add('active');
+        });
+        document.getElementById('floating-cart-btn').addEventListener('click', () => {
+            cartModalOverlay.classList.add('active');
+        });
 
-                    closeCartModalBtn.addEventListener('click', () => {
-                    cartModalOverlay.classList.remove('active');
-                    });
+        closeCartModalBtn.addEventListener('click', () => {
+            cartModalOverlay.classList.remove('active');
+        });
 
-                    cartModalOverlay.addEventListener('click', (event) => {
-                    if (event.target === cartModalOverlay) {
-                    cartModalOverlay.classList.remove('active');
-                    }
-                    });
+        cartModalOverlay.addEventListener('click', (event) => {
+            if (event.target === cartModalOverlay) {
+                cartModalOverlay.classList.remove('active');
+            }
+        });
 
-                    // Abrir/Cerrar WhatsApp Modal
-                    checkoutBtn.addEventListener('click', () => {
-                    if (cart.length === 0) {
-                    showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
-                    return;
-                    }
-                    cartModalOverlay.classList.remove('active');
-                    whatsappModalOverlay.classList.add('active');
-                    });
+        // Abrir/Cerrar WhatsApp Modal
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
+                return;
+            }
+            cartModalOverlay.classList.remove('active');
+            whatsappModalOverlay.classList.add('active');
+        });
 
-                    closeWhatsappModalBtn.addEventListener('click', () => {
-                    whatsappModalOverlay.classList.remove('active');
-                    });
+        closeWhatsappModalBtn.addEventListener('click', () => {
+            whatsappModalOverlay.classList.remove('active');
+        });
 
-                    whatsappModalOverlay.addEventListener('click', (event) => {
-                    if (event.target === whatsappModalOverlay) {
-                    whatsappModalOverlay.classList.remove('active');
-                    }
-                    });
+        whatsappModalOverlay.addEventListener('click', (event) => {
+            if (event.target === whatsappModalOverlay) {
+                whatsappModalOverlay.classList.remove('active');
+            }
+        });
 
-                    // Generar enlace de WhatsApp con el pedido
-                    sendWhatsappBtn.addEventListener('click', () => {
-                    let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
-                    cart.forEach(item => {
-                    orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price *
+        // Generar enlace de WhatsApp con el pedido
+        sendWhatsappBtn.addEventListener('click', () => {
+            let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
+            cart.forEach(item => {
+                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price *
                     item.quantity).toFixed(2)}\n`;
-                    });
-                    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrección aquí
-                    orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
-                    orderDetails += "Por favor, contáctenme para concretar la compra.";
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrección aquí
+            orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
+            orderDetails += "Por favor, contáctenme para concretar la compra.";
 
-                    const whatsappNumber = "527713951347";
+            const whatsappNumber = "527713951347";
 
-                    const whatsappLink =
-                    `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
+            const whatsappLink =
+                `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
 
-                    window.open(whatsappLink, '_blank');
-                    cart = [];
-                    updateCartUI();
-                    whatsappModalOverlay.classList.remove('active');
-                    showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
-                    });
+            window.open(whatsappLink, '_blank');
+            cart = [];
+            updateCartUI();
+            whatsappModalOverlay.classList.remove('active');
+            showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
+        });
 
-                    // Funcionalidad de la barra de búsqueda
-                    searchToggle.addEventListener('click', () => {
-                    searchInput.classList.toggle('hidden');
-                    if (!searchInput.classList.contains('hidden')) {
-                    searchInput.classList.add('w-full', 'md:w-48');
-                    searchInput.focus();
-                    } else {
-                    searchInput.classList.remove('w-full', 'md:w-48');
-                    }
-                    });
+        // Funcionalidad de la barra de búsqueda
+        searchToggle.addEventListener('click', () => {
+            searchInput.classList.toggle('hidden');
+            if (!searchInput.classList.contains('hidden')) {
+                searchInput.classList.add('w-full', 'md:w-48');
+                searchInput.focus();
+            } else {
+                searchInput.classList.remove('w-full', 'md:w-48');
+            }
+        });
 
-                    // Funcionalidad del botón de cotizar reparación
-                    document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
-                    event.preventDefault();
-                    const whatsappNumber = "527713951347";
-                    const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación
-                    de laptop. ¿Podrían darme más información?";
-                    const whatsappLink =
-                    `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
-                    window.open(whatsappLink, '_blank');
-                    });
+        // Funcionalidad del botón de cotizar reparación
+        document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            const whatsappNumber = "527713951347";
+            const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+            window.open(whatsappLink, '_blank');
+        });
 
-                    // Funcionalidad para el menú móvil
-                    mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    });
+        // Funcionalidad para el menú móvil
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-                    // Cerrar menú móvil al hacer clic en un enlace
-                    document.querySelectorAll('#mobile-menu a').forEach(link => {
-                    link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    });
-                    });
+        // Cerrar menú móvil al hacer clic en un enlace
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
-                    // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
+        // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
 
-                    // Abrir/Cerrar Modal de Diagnóstico
-                    aiDiagnosisBtn.addEventListener('click', () => {
-                    diagnosisModalOverlay.classList.add('active');
-                    problemDescriptionTextarea.value = '';
-                    diagnosisResultDiv.classList.add('hidden');
-                    diagnosisError.classList.add('hidden');
-                    });
+        // Abrir/Cerrar Modal de Diagnóstico
+        aiDiagnosisBtn.addEventListener('click', () => {
+            diagnosisModalOverlay.classList.add('active');
+            problemDescriptionTextarea.value = '';
+            diagnosisResultDiv.classList.add('hidden');
+            diagnosisError.classList.add('hidden');
+        });
 
-                    closeDiagnosisModalBtn.addEventListener('click', () => {
-                    diagnosisModalOverlay.classList.remove('active');
-                    });
+        closeDiagnosisModalBtn.addEventListener('click', () => {
+            diagnosisModalOverlay.classList.remove('active');
+        });
 
-                    diagnosisModalOverlay.addEventListener('click', (event) => {
-                    if (event.target === diagnosisModalOverlay) {
-                    diagnosisModalOverlay.classList.remove('active');
-                    }
-                    });
+        diagnosisModalOverlay.addEventListener('click', (event) => {
+            if (event.target === diagnosisModalOverlay) {
+                diagnosisModalOverlay.classList.remove('active');
+            }
+        });
 
-                    // Obtener Diagnóstico del LLM
-                    getDiagnosisBtn.addEventListener('click', async () => {
-                    const problemDescription = problemDescriptionTextarea.value.trim();
-                    if (!problemDescription) {
-                    showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
-                    return;
-                    }
+        // Obtener Diagnóstico del LLM
+        getDiagnosisBtn.addEventListener('click', async () => {
+            const problemDescription = problemDescriptionTextarea.value.trim();
+            if (!problemDescription) {
+                showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
+                return;
+            }
 
-                    diagnosisResultDiv.classList.add('hidden');
-                    diagnosisError.classList.add('hidden');
-                    diagnosisLoader.classList.remove('hidden');
+            diagnosisResultDiv.classList.add('hidden');
+            diagnosisError.classList.add('hidden');
+            diagnosisLoader.classList.remove('hidden');
 
-                    try {
-                    let chatHistory = [];
-                    const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha
+            try {
+                let chatHistory = [];
+                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha
                     descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico
                     preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica
                     cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil
                     de entender. Descripción del problema: ${problemDescription}`;
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                    const payload = { contents: chatHistory };
-                    const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de
-                    Firebase
-                    const apiUrl =
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyDage32AIvwlSdsr9_yOnvxxiLipyrEs44"; // Usa la apiKey de tu configuración de Firebase
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-                    const response = await fetch(apiUrl, {
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                    });
+                });
 
-                    const result = await response.json();
-                    let diagnosisOutput = '';
+                const result = await response.json();
+                let diagnosisOutput = '';
 
-                    if (result.candidates && result.candidates.length > 0 &&
+                if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     diagnosisOutput = result.candidates[0].content.parts[0].text;
                     diagnosisTextDiv.innerHTML = diagnosisOutput.replace(/\n/g, '<br>');
                     diagnosisResultDiv.classList.remove('hidden');
-                    } else {
+                } else {
                     diagnosisError.classList.remove('hidden');
                     console.error('Estructura de respuesta inesperada del LLM:', result);
                     diagnosisOutput = "No pudimos generar un diagnóstico en este momento.";
                     diagnosisTextDiv.innerHTML = diagnosisOutput;
                     diagnosisResultDiv.classList.remove('hidden');
-                    }
+                }
 
-                    // Guardar la interacción en Firestore
-                    if (db) {
+                // Guardar la interacción en Firestore
+                if (db) {
                     try {
-                    await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
-                    userId: userId,
-                    assistant: 'repair_diagnosis',
-                    input: problemDescription,
-                    output: diagnosisOutput,
-                    timestamp: serverTimestamp()
-                    });
-                    console.log("Repair diagnosis interaction saved to Firestore.");
+                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+                            userId: userId,
+                            assistant: 'repair_diagnosis',
+                            input: problemDescription,
+                            output: diagnosisOutput,
+                            timestamp: serverTimestamp()
+                        });
+                        console.log("Repair diagnosis interaction saved to Firestore.");
                     } catch (dbError) {
-                    console.error("Error saving repair diagnosis to Firestore:", dbError);
+                        console.error("Error saving repair diagnosis to Firestore:", dbError);
                     }
-                    }
+                }
 
-                    } catch (error) {
-                    diagnosisError.classList.remove('hidden');
-                    console.error('Error al llamar a la API de Gemini:', error);
-                    diagnosisTextDiv.innerHTML = "Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.";
-                    diagnosisResultDiv.classList.remove('hidden');
-                    } finally {
-                    diagnosisLoader.classList.add('hidden');
-                    }
-                    });
+            } catch (error) {
+                diagnosisError.classList.remove('hidden');
+                console.error('Error al llamar a la API de Gemini:', error);
+                diagnosisTextDiv.innerHTML = "Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.";
+                diagnosisResultDiv.classList.remove('hidden');
+            } finally {
+                diagnosisLoader.classList.add('hidden');
+            }
+        });
 
-                    // --- Funcionalidad de la galería de imágenes en el modal de zoom ---
+        // --- Funcionalidad de la galería de imágenes en el modal de zoom ---
 
-                    // Función para actualizar la imagen del modal y los indicadores
-                    function updateModalImageAndIndicators() {
-                    modalImage.src = currentProductImageUrls[currentImageCarouselIndex];
+        // Función para actualizar la imagen del modal y los indicadores
+        function updateModalImageAndIndicators() {
+            modalImage.src = currentProductImageUrls[currentImageCarouselIndex];
 
-                    // Ocultar/mostrar flechas si solo hay una imagen
-                    if (currentProductImageUrls.length <= 1) { modalPrevBtn.classList.add('hidden');
-                        modalNextBtn.classList.add('hidden'); modalImageIndicators.classList.add('hidden'); } else {
-                        modalPrevBtn.classList.remove('hidden'); modalNextBtn.classList.remove('hidden');
-                        modalImageIndicators.classList.remove('hidden'); } modalImageIndicators.innerHTML='' ; //
-                        Limpiar indicadores existentes currentProductImageUrls.forEach((_, index)=> {
-                        const dot = document.createElement('span');
-                        dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1
+            // Ocultar/mostrar flechas si solo hay una imagen
+            if (currentProductImageUrls.length <= 1) {
+                modalPrevBtn.classList.add('hidden');
+                modalNextBtn.classList.add('hidden'); modalImageIndicators.classList.add('hidden');
+            } else {
+                modalPrevBtn.classList.remove('hidden'); modalNextBtn.classList.remove('hidden');
+                modalImageIndicators.classList.remove('hidden');
+            } modalImageIndicators.innerHTML = ''; //
+                        Limpiar indicadores existentes currentProductImageUrls.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1
                         transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
-                        dot.addEventListener('click', () => {
-                        currentImageCarouselIndex = index;
-                        updateModalImageAndIndicators();
-                        });
-                        modalImageIndicators.appendChild(dot);
-                        });
-                        }
+                dot.addEventListener('click', () => {
+                    currentImageCarouselIndex = index;
+                    updateModalImageAndIndicators();
+                });
+                modalImageIndicators.appendChild(dot);
+            });
+        }
 
-                        // Event listener para abrir el modal de imagen
-                        function attachImageClickListeners() {
-                        document.querySelectorAll('.product-card img').forEach(img => {
-                        img.addEventListener('click', (event) => {
-                        const productId = parseInt(event.target.dataset.productId);
-                        const product = products.find(p => p.id === productId);
+        // Event listener para abrir el modal de imagen
+        function attachImageClickListeners() {
+            document.querySelectorAll('.product-card img').forEach(img => {
+                img.addEventListener('click', (event) => {
+                    const productId = parseInt(event.target.dataset.productId);
+                    const product = products.find(p => p.id === productId);
 
-                        if (product && product.images && product.images.length > 0) {
+                    if (product && product.images && product.images.length > 0) {
                         currentProductImageUrls = product.images;
                         currentImageCarouselIndex = 0; // Siempre empezar por la primera imagen al abrir
                         updateModalImageAndIndicators();
-                        } else {
+                    } else {
                         // Fallback si no hay array de imágenes o está vacío
                         modalImage.src = event.target.src;
                         currentProductImageUrls = [event.target.src]; // Solo una imagen
                         currentImageCarouselIndex = 0;
                         updateModalImageAndIndicators(); // Para ocultar nav/indicadores
-                        }
+                    }
 
-                        if (product) {
+                    if (product) {
                         modalProductName.textContent = product.name;
                         modalProductDescription.innerHTML = product.description.replace(/<br>/g, '<br>');
-                        } else {
+                    } else {
                         modalProductName.textContent = '';
                         modalProductDescription.textContent = '';
-                        }
+                    }
 
-                        imageModalOverlay.classList.add('active');
-                        });
-                        });
-                        }
+                    imageModalOverlay.classList.add('active');
+                });
+            });
+        }
 
-                        // Navegación del carrusel: Botón Anterior
-                        modalPrevBtn.addEventListener('click', () => {
-                        currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) %
-                        currentProductImageUrls.length;
-                        updateModalImageAndIndicators();
-                        });
+        // Navegación del carrusel: Botón Anterior
+        modalPrevBtn.addEventListener('click', () => {
+            currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) %
+                currentProductImageUrls.length;
+            updateModalImageAndIndicators();
+        });
 
-                        // Navegación del carrusel: Botón Siguiente
-                        modalNextBtn.addEventListener('click', () => {
-                        currentImageCarouselIndex = (currentImageCarouselIndex + 1) % currentProductImageUrls.length;
-                        updateModalImageAndIndicators();
-                        });
+        // Navegación del carrusel: Botón Siguiente
+        modalNextBtn.addEventListener('click', () => {
+            currentImageCarouselIndex = (currentImageCarouselIndex + 1) % currentProductImageUrls.length;
+            updateModalImageAndIndicators();
+        });
 
-                        // Cerrar modal de imagen
-                        closeModalImageBtn.addEventListener('click', () => {
-                        imageModalOverlay.classList.remove('active');
-                        });
+        // Cerrar modal de imagen
+        closeModalImageBtn.addEventListener('click', () => {
+            imageModalOverlay.classList.remove('active');
+        });
 
-                        // Cerrar modal al hacer clic fuera del contenido
-                        imageModalOverlay.addEventListener('click', (event) => {
-                        if (event.target === imageModalOverlay) {
-                        imageModalOverlay.classList.remove('active');
-                        }
-                        });
+        // Cerrar modal al hacer clic fuera del contenido
+        imageModalOverlay.addEventListener('click', (event) => {
+            if (event.target === imageModalOverlay) {
+                imageModalOverlay.classList.remove('active');
+            }
+        });
 
-                        </script>
+    </script>
 </body>
 
 </html>
